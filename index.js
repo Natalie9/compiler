@@ -1,3 +1,5 @@
+const states = require("./statesTransitions");
+
 let TOKEN = {'word': {classe: '', lexema: '', tipo: ''}}
 let symbolTable = {
     'inicio': {classe: 'inicio', lexema: 'inicio', tipo: 'inicio'},
@@ -15,39 +17,40 @@ let symbolTable = {
     'literal': {classe: 'literal', lexema: 'literal', tipo: 'literal'},
     'real': {classe: 'real', lexema: 'real', tipo: 'real'},
 }
-const stateMachine = {
-    'q1': {'a': 'q2', 'b': 'q1'},
-    'q2': {'a': 'q2', 'b': 'q3'},
-    'q3': {'a': 'q3', 'b': 'q3'},
-    'q4': {'a': 'q4', 'b': 'q4'},
-    'initial': 'q1',
 
-    'final': 'q3'
+function scanner(word) {
+    const lastState = readChain(word, states['initial'])
+    const isFinalState = checkFinalState(lastState, states['final'])
+    printAnswer(word, isFinalState)
+    return isFinalState
 }
 
-function scanner() {
-    let word1 = 'baabab'
-    let word2 = 'bbbba'
-    printAnswer(readChain(word1, stateMachine['initial']), stateMachine['final'])
-    printAnswer(readChain(word2, stateMachine['initial']), stateMachine['final'])
+function checkFinalState(state, finalState) {
+    return state in finalState
 }
 
-scanner()
-
-function printAnswer(state, finalState){
-    if (state === finalState) console.log('reconhece')
-    else console.log('erro')
+function printAnswer(word, isFinalState) {
+    isFinalState ? console.log('reconhece', word) : console.log('Não reconhece', word)
 }
 
 function readChain(chain, initialState) {
-    let state = initialState
-    chain.split('').map((letter) => {
-        state = readValueReturnNewState(letter, state)
-    })
-    return state
+    try {
+        let state = initialState
+        chain.split('').map((letter) => {
+            state = readValueReturnNewState(letter, state)
+        })
+        return state
+    } catch (e) {
+        console.error(e)
+    }
+
+
 }
 
 function readValueReturnNewState(value, state) {
-    let nextState = stateMachine[state][value]
+    let nextState = states[state][value]
+    if (!nextState) throw 'Parameter is not a number!'; //TODO: improve throw error
     return nextState
 }
+
+module.exports = scanner
