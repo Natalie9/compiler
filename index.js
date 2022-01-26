@@ -48,6 +48,7 @@ function readChain(chain, initialState) {
 }
 
 function readValueReturnNewState(value, state) {
+    //teste
     let nextState = states[state][value]
     if (!nextState) throw 'Parameter is not a number!'; //TODO: improve throw error
     return nextState
