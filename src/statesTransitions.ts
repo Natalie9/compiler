@@ -18,11 +18,19 @@ const lineNumber = {
     },
     'q4': {'number': 'q5'},
     'q5': {'number': 'q5'},
+
 }
 
 export const states: any = {
     'q0': {...lineNumber['initNumber']},
     ...lineNumber,
     'initial': 'q0',
-    'final': {'q1': 'enum', 'q3': 'num', 'q2': 'num', 'q5': 'num'}
+    'final': {
+        'q1': {classe: 'NUM', tipo: 'inteiro'},
+        'q3': {classe: 'NUM', tipo: 'real'},
+        'q2': {classe: 'NUM', tipo: 'real'},
+        'q5': {classe: 'NUM', tipo: 'real'},
+        'qErro': {classe: 'ERROR', lexema: 'NULO', 'tipo': 'NULO'}
+    },
+
 }
