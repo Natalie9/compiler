@@ -1,4 +1,5 @@
 import {states} from './statesTransitions'
+import {isNumber, whatType} from "./utils/validations";
 
 let TOKEN = {'word': {classe: '', lexema: '', tipo: ''}}
 let symbolTable = {
@@ -19,6 +20,7 @@ let symbolTable = {
 }
 
 export function scanner(word : any) {
+
     const lastState = readChain(word, states['initial'])
     const isFinalState = checkFinalState(lastState, states['final'])
     printAnswer(word, isFinalState)
@@ -32,6 +34,7 @@ function checkFinalState(state: any, finalState: any) {
 function printAnswer(word: any, isFinalState: any) {
     isFinalState ? console.log('reconhece', word) : console.log('Não reconhece', word)
 }
+
 
 function readChain(chain: any, initialState: any) {
     try {
@@ -48,7 +51,8 @@ function readChain(chain: any, initialState: any) {
 }
 
 function readValueReturnNewState(value: any, state:any) {
-    let nextState = states[state][value]
+    const typeValue = isNumber(value) ? 'number' : value
+    let nextState = states[state][typeValue]
     if (!nextState) throw 'Parameter is not a number!'; //TODO: improve throw error
     return nextState
 }
