@@ -2,11 +2,16 @@
   "name": "t1",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ts-node-dev --ignore-watch node_modules src/tests.ts",
+    "dev": "ts-node-dev --ignore-watch node_modules src/index.ts"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.5.5"
+  }
 }
