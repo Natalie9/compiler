@@ -1,4 +1,4 @@
-const scanner = require("./index")
+import {scanner} from "./index";
 
 test('recognize number', () => {
     expect(scanner('2')).toBe(true)
