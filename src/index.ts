@@ -1,8 +1,23 @@
 import {states} from './statesTransitions'
 import {isNumber} from "./utils/validations";
 import {IToken} from "./models/Token";
+import {
+    AB_P, ALPHABET,
+    DIGIT,
+    DOT,
+    EOF,
+    EQUAL,
+    EXPONENTIAL, FC_P,
+    LESS,
+    LETTER,
+    MINUS,
+    MORE,
+    OPM,
+    PLUS, PT_V,
+    QUOTES,
+    UNDERLINE
+} from "./Alphabet";
 
-let TOKEN = {'word': {classe: '', lexema: '', tipo: ''} as IToken}
 let symbolTable = {
     'inicio': {classe: 'inicio', lexema: 'inicio', tipo: 'inicio'},
     'varinicio': {classe: 'varinicio', lexema: 'varinicio', tipo: 'varinicio'},
@@ -37,7 +52,7 @@ function checkFinalState(state: any, finalState: any) {
 
 function printAnswer(word: string, lastState: string) {
     const isFinalState = checkFinalState(lastState, states['final'])
-    if(isFinalState) {
+    if (isFinalState) {
         console.log(states['final'][lastState])
         return true
     } else {
@@ -48,7 +63,7 @@ function printAnswer(word: string, lastState: string) {
 }
 
 
-function readText(text: string, initialState: any) {
+function readText(text: string, initialState: string) {
     const textAsArray = text.split('')
     let lexema = ''
     let state = initialState
@@ -57,25 +72,56 @@ function readText(text: string, initialState: any) {
         if (caractere == ' ') break
         lexema += caractere
         state = readValueReturnNewState(caractere, state)
-        if(state== 'qErro') break
+        if (state == 'qErro') break
     }
     return {lastState: state, lexema}
-
 
 }
 
 function turnValueInSomeGeneralType(value: any) {
-    //todo: colocar mais tipos genéricos, exemplo letra
+    switch (true) {
+        case DIGIT.includes(value):
+            return 'DIGIT'
+        case LETTER.includes(value):
+            return 'LETTER'
+        case QUOTES.includes(value):
+            return 'QUOTES'
+        case UNDERLINE.includes(value):
+            return 'UNDERLINE'
+        case LESS.includes(value):
+            return 'LESS'
+        case MORE.includes(value):
+            return 'MORE'
+        case DOT.includes(value):
+            return 'DOT'
+        case PLUS.includes(value):
+            return 'PLUS'
+        case MINUS.includes(value):
+            return 'MINUS'
+        case EXPONENTIAL.includes(value):
+            return 'EXPONENTIAL'
+        case OPM.includes(value):
+            return 'OPM'
+        case EOF.includes(value):
+            return 'EOF'
+        case EQUAL.includes(value):
+            return 'EQUAL'
+        case AB_P.includes(value):
+            return 'AB_P'
+        case FC_P.includes(value):
+            return 'FC_P'
+        case PT_V.includes(value):
+            return 'PT_V'
+        case ALPHABET.includes(value):
+            return 'ALPHABET'
+        default:
+            return 'ERRO'
 
-    if (isNumber(value))
-        return 'number'
-    else if (value == ' ')
-        return 'blank'
-    else return value
+    }
 
 }
 
-function readValueReturnNewState(value: any, state: any) {
+function readValueReturnNewState(value: string, state: string) {
     const input = turnValueInSomeGeneralType(value)
     console.log(input)
     let nextState = states[state][input]
