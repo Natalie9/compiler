@@ -1,8 +1,6 @@
 import {states} from './statesTransitions'
-import {isNumber} from "./utils/validations";
-import {IToken} from "./models/Token";
 import {
-    AB_P, ALPHABET,
+    AB_P, ALPHABET, blank,
     DIGIT,
     DOT,
     EOF,
@@ -14,67 +12,64 @@ import {
     MORE,
     OPM,
     PLUS, PT_V,
-    QUOTES,
+    QUOTES, symbolTable,
     UNDERLINE
 } from "./Alphabet";
 
-let symbolTable = {
-    'inicio': {classe: 'inicio', lexema: 'inicio', tipo: 'inicio'},
-    'varinicio': {classe: 'varinicio', lexema: 'varinicio', tipo: 'varinicio'},
-    'varfim': {classe: 'varfim', lexema: 'varfim', tipo: 'varfim'},
-    'escreva': {classe: 'escreva', lexema: 'escreva', tipo: 'escreva'},
-    'leia': {classe: 'leia', lexema: 'leia', tipo: 'leia'},
-    'se': {classe: 'se', lexema: 'se', tipo: 'se'},
-    'entao': {classe: 'entao', lexema: 'entao', tipo: 'entao'},
-    'fimse': {classe: 'fimse', lexema: 'fimse', tipo: 'fimse'},
-    'repita': {classe: 'repita', lexema: 'repita', tipo: 'repita'},
-    'fimrepita': {classe: 'fimrepita', lexema: 'fimrepita', tipo: 'fimrepita'},
-    'fim': {classe: 'fim', lexema: 'fim', tipo: 'fim'},
-    'inteiro': {classe: 'inteiro', lexema: 'inteiro', tipo: 'inteiro'},
-    'literal': {classe: 'literal', lexema: 'literal', tipo: 'literal'},
-    'real': {classe: 'real', lexema: 'real', tipo: 'real'},
+
+export function scanner(text: string, position: number = 0) {
+    const textAsArray = text.split('').slice(position)
+    let lexema = ''
+    let state = states['INITIAL']
+    for (let caractere of textAsArray) {
+        //demarca de uma posição foi lida
+        position++
+        //rece o proximo estado e qual o tipo que aquela entrada tem
+        let {nextState, generalType} = readValueReturnNewState(caractere, state)
+        //se não tiver proximo estado chegou ao fim do automato
+        if (!nextState) {
+            position--;
+            break
+        }
+        //se tiver proximo estado, passa a ser o estado atual
+        state = nextState
+        //se o estado atual for 0 é pq n andou, ent a entrada não forma lexema, tal qual um erro
+        if (state != 'Q0' && generalType != 'ERRO')
+            lexema += caractere
+    }
+    const token = formatToken({lexema, state})
+    console.log(token)
+    return {token, position}
+
 }
 
-export function scanner(text: string) {
-    //vai ler um arquivo, a cada caractere faz as transições, ao encontrar um token, retorna ele e volta pro zero.
-    //duvidas quanto a quando parar de ler, se ao retornar o primeiro token já para até ser chamado novamente...
-    //no video fala que ainda n vai declarar se é inteiro, real... mas no descritivo do trabalho pede isso no retorno do scanner
+//@todo como saber linha e coluna que o erro aconteceu?
 
-    let {lexema, lastState} = readText(text, states['initial'])
+function checkFinalState(state: any) {
+    return state in states['FINAL'] ? true : false
+}
 
-    return printAnswer(lexema, lastState)
+function checkTableSymbol(token) {
+    if (token.classe == 'ID') {
+        if (!(token.lexema in symbolTable))
+            symbolTable[token.lexema] = token
+        return symbolTable[token.lexema]
+    }
+    return token
 
 }
 
-function checkFinalState(state: any, finalState: any) {
-    return state in finalState
-}
-
-function printAnswer(word: string, lastState: string) {
-    const isFinalState = checkFinalState(lastState, states['final'])
+function formatToken({lexema, state}) {
+    const isFinalState = checkFinalState(state)
     if (isFinalState) {
-        console.log(states['final'][lastState])
-        return true
+        //se id verificar se ta na tabela de simbolos
+        let token = {...states['FINAL'][state], lexema}
+        token = checkTableSymbol(token)
+        return token
     } else {
-        console.log('Lexema não reconhecido', word)
+        console.log('Lexema não reconhecido', lexema)
         return false
     }
-
-}
-
-
-function readText(text: string, initialState: string) {
-    const textAsArray = text.split('')
-    let lexema = ''
-    let state = initialState
-    for (let caractere of textAsArray) {
-        //reconhece que a palavra acabou com espaço, @todo avaliar se isso pode e  quais outros indicadores de fim da palavra
-        if (caractere == ' ') break
-        lexema += caractere
-        state = readValueReturnNewState(caractere, state)
-        if (state == 'qErro') break
-    }
-    return {lastState: state, lexema}
 
 }
 
@@ -100,6 +95,7 @@ function turnValueInSomeGeneralType(value: any) {
             return 'MINUS'
         case EXPONENTIAL.includes(value):
             return 'EXPONENTIAL'
+        //@mesmo problema do alphabeto, retorna o mais e não OPM
         case OPM.includes(value):
             return 'OPM'
         case EOF.includes(value):
@@ -112,8 +108,11 @@ function turnValueInSomeGeneralType(value: any) {
             return 'FC_P'
         case PT_V.includes(value):
             return 'PT_V'
+        //@todo a ideia de alphabet pra englobar qualquer entrada e reduzir o automato nao deu certo pois sempre entra em um anterior
         case ALPHABET.includes(value):
             return 'ALPHABET'
+        case blank.includes(value):
+            return 'BLANK'
         default:
             return 'ERRO'
 
@@ -123,11 +122,8 @@ function turnValueInSomeGeneralType(value: any) {
 
 function readValueReturnNewState(value: string, state: string) {
     const input = turnValueInSomeGeneralType(value)
-    console.log(input)
     let nextState = states[state][input]
-    if (!nextState) {
-        console.log('Entrada inválida', input)
-        return 'qErro'
-    }
-    return nextState
+    return {nextState, generalType: input}
+
 }
+
