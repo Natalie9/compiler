@@ -1,6 +1,6 @@
 import {states} from './statesTransitions'
 import {
-    AB_P, ALPHABET, blank,
+    AB_P, ALPHABET, ASTERISK, blank,
     DIGIT,
     DOT,
     EOF,
@@ -12,10 +12,12 @@ import {
     MORE,
     OPM,
     PLUS, PT_V,
-    QUOTES, symbolTable,
+    QUOTES, SLASH, symbolTable,
     UNDERLINE
 } from "./Alphabet";
 
+//@todo tratar comentários
+//@todo tratar erros
 
 export function scanner(text: string, position: number = 0) {
     const textAsArray = text.split('').slice(position)
@@ -93,11 +95,10 @@ function turnValueInSomeGeneralType(value: any) {
             return 'PLUS'
         case MINUS.includes(value):
             return 'MINUS'
-        case EXPONENTIAL.includes(value):
-            return 'EXPONENTIAL'
-        //@mesmo problema do alphabeto, retorna o mais e não OPM
-        case OPM.includes(value):
-            return 'OPM'
+        case SLASH.includes(value):
+            return 'SLASH'
+        case ASTERISK.includes(value):
+            return 'ASTERISK'
         case EOF.includes(value):
             return 'EOF'
         case EQUAL.includes(value):
@@ -120,8 +121,17 @@ function turnValueInSomeGeneralType(value: any) {
 
 }
 
+function checkIfLetterIsExponencial({input, state, value}) {
+    const numberStates = ['Q1', 'Q3']
+    if (numberStates.includes(state) && EXPONENTIAL.includes(value)) {
+        return 'EXPONENTIAL'
+    }
+    return input
+}
+
 function readValueReturnNewState(value: string, state: string) {
-    const input = turnValueInSomeGeneralType(value)
+    let input = turnValueInSomeGeneralType(value)
+    input = checkIfLetterIsExponencial({input, state, value})
     let nextState = states[state][input]
     return {nextState, generalType: input}
 
