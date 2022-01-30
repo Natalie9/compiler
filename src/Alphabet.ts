@@ -6,8 +6,10 @@ export const MORE = ">"
 export const DOT = "."
 export const PLUS = "+"
 export const MINUS = "-"
+export const ASTERISK = "*"
+export const SLASH = "/"
 export const EXPONENTIAL = ["E", "e"]
-export const OPM = [PLUS, MINUS, "*", "/"]
+export const OPM = [PLUS, MINUS, ASTERISK, SLASH]
 export const EQUAL = "="
 export const EOF = "EOF"
 export const AB_P = "("
