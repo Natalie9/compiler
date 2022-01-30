@@ -122,6 +122,7 @@ function turnValueInSomeGeneralType(value: any) {
 }
 
 function checkIfLetterIsExponencial({input, state, value}) {
+    // Nos casos em que o número é exponencial precisamos de uma validação para que o e|E não entre no caso letter
     const numberStates = ['Q1', 'Q3']
     if (numberStates.includes(state) && EXPONENTIAL.includes(value)) {
         return 'EXPONENTIAL'
