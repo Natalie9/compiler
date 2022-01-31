@@ -17,35 +17,52 @@ import {
 } from "./utils/Alphabet";
 
 import * as fs from 'fs/promises'
+import * as path from 'path'
 
 //@todo tratar comentários
 //@todo tratar erros
 
-export function scanner(text: string, position: number = 0) {
-    const textAsArray = text.split('').slice(position)
+function readSourceCode(text, {line, column}) {
+    const textLines = text.split('\n')
     let lexema = ''
     let state = states['INITIAL']
-    for (let caractere of textAsArray) {
-        //demarca de uma posição foi lida
-        position++
-        //rece o proximo estado e qual o tipo que aquela entrada tem
-        let {nextState, generalType} = readValueReturnNewState(caractere, state)
-        console.log({nextState, generalType})
-        //se não tiver proximo estado chegou ao fim do automato
-        if (!nextState) {
-            position--;
-            break
+
+    for (line; line < textLines.length; line++) {
+        let lineOfText = textLines[line]
+        const charactersOfLine = lineOfText.split('')
+        if(column>=charactersOfLine.length){
+            column = 0
+            continue
         }
-        //se tiver proximo estado, passa a ser o estado atual
-        state = nextState
-        //se o estado atual for 0 é pq n andou, ent a entrada não forma lexema
-        if (state != 'Q0')
-            lexema += caractere
+        for (column; column < charactersOfLine.length; column++) {
+            let character = charactersOfLine[column]
+
+            //recebe o proximo estado e qual o tipo que aquela entrada tem
+            let {nextState} = readValueReturnNewState(character, state)
+            //se não tiver proximo estado chegou ao fim do automato
+            if (!nextState) {
+                return {lexema, state, newPosition: [line, column]}
+            }
+            //se tiver proximo estado, passa a ser o estado atual
+            state = nextState
+            //se o estado atual for 0 é pq n andou, ent a entrada não forma lexema
+            if (state != 'Q0')
+                lexema += character
+        }
+        return {lexema, state, newPosition: [line, column]}
     }
+}
+
+export async function scanner(pathName: string, position: number[] = [0, 0]) {
+    const text = await readTextFile(path.join(__dirname, pathName))
+    let [line, column] = position
+    let {lexema, state, newPosition} = readSourceCode(text, {line, column})
     const token = formatToken({lexema, state})
-    return {token, position}
+    console.log({token, position: newPosition})
+    return {token, position: newPosition}
 
 }
+
 
 //@todo como saber linha e coluna que o erro aconteceu?
 
@@ -74,8 +91,7 @@ function formatToken({lexema, state}) {
 }
 
 export async function readTextFile(pathName) {
-    let a = await fs.readFile(pathName);
-    console.log(a.toString());
+    return (await fs.readFile(pathName)).toString();
 }
 
 function notifyError() {

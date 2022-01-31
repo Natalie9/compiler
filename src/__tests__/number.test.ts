@@ -8,10 +8,10 @@ describe('Test scanner read some source code', () => {
         let {token} = scanner(text)
         expect(token).toEqual(expectedTokenNumber)
     }),
-    it('Recognize exponential number with signal', () => {
+    it('Recognize exponential number with signal', async() => {
         const text = '3e+3'
         const expectedTokenNumber: IToken = {lexema: text, tipo: 'real', classe: 'NUM'}
-        let {token} = scanner(text)
+        let {token} = await scanner(text)
         expect(token).toEqual(expectedTokenNumber)
     }),
     it('Recognize exponential number', () => {
@@ -29,4 +29,3 @@ describe('Test scanner read some source code', () => {
 })
 
 
-   
