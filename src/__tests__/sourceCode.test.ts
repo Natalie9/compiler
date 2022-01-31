@@ -462,7 +462,7 @@ describe('Test scanner read some source code', () => {
     })
     it('Should read source code and return string token', () => {
         //@todo verificar \n
-        const expectedTokenLit: IToken = {lexema: '\"\nB="\"', tipo: 'literal', classe: 'LIT'}
+        const expectedTokenLit: IToken = {lexema: "\"B=\"" , tipo: 'literal', classe: 'LIT'}
         response = scanner(MGOL, response.position)
         expect(response.token).toEqual(expectedTokenLit) 
     })
@@ -490,7 +490,7 @@ describe('Test scanner read some source code', () => {
     })
     it('Should read source code and return string token', () => {
         //@todo verificar \n
-        const expectedTokenLit: IToken = {lexema: '\""\"', tipo: 'literal', classe: 'LIT'}
+        const expectedTokenLit: IToken = {lexema: '"\"\"', tipo: 'literal', classe: 'LIT'}
         response = scanner(MGOL, response.position)
         expect(response.token).toEqual(expectedTokenLit) 
     })
@@ -518,7 +518,7 @@ describe('Test scanner read some source code', () => {
     })
     it('Should read source code and return string token', () => {
         //@todo verificar "\n"
-        const expectedTokenLit: IToken = {lexema: '\"\n"\"', tipo: 'literal', classe: 'LIT'}
+        const expectedTokenLit: IToken = {lexema: '\""', tipo: 'literal', classe: 'LIT'}
         response = scanner(MGOL, response.position)
         expect(response.token).toEqual(expectedTokenLit) 
     })

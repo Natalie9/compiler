@@ -40,7 +40,7 @@ export function scanner(text: string, position: number = 0) {
             lexema += caractere
     }
     const token = formatToken({lexema, state})
-    console.log(token)
+   // console.log(token)
     return {token, position}
 
 }
@@ -58,7 +58,6 @@ function checkTableSymbol(token) {
         return symbolTable[token.lexema]
     }
     return token
-
 }
 
 function formatToken({lexema, state}) {
@@ -69,10 +68,22 @@ function formatToken({lexema, state}) {
         token = checkTableSymbol(token)
         return token
     } else {
-        console.log('Lexema não reconhecido', lexema)
-        return false
+        return validateErrorType({lexema, ...states['FINAL'][state]})
     }
 
+}
+
+function validateErrorType({lexema, state}) {
+    // Validação do tipo do erro quando é erro léxico
+    const errorState = ['Q22']
+    if (errorState.includes(state)) {
+        let token = {...states['FINAL'][state], lexema}
+        let erro = 'Erro léxico - Caractere inválido na linguagem '.concat(lexema)
+        return {token, erro}
+    }
+    let token = {...states['FINAL'][state],  lexema}
+    let erro = 'Erro léxico - Caractere inválido na linguagem '.concat(lexema)
+    return {token, erro}
 }
 
 function turnValueInSomeGeneralType(value: any) {
@@ -135,6 +146,5 @@ function readValueReturnNewState(value: string, state: string) {
     input = checkIfLetterIsExponencial({input, state, value})
     let nextState = states[state][input]
     return {nextState, generalType: input}
-
 }
 
