@@ -57,6 +57,7 @@ export const states: any = {
         'PT_V': 'Q6',
         'ALPHABET': 'Q6',
         'BLANK': 'Q6',
+        'CARACTERES': 'Q6',
         'QUOTES': 'Q8'
     },
     "Q8": {},
