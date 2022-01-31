@@ -1,4 +1,4 @@
-import {states} from './statesTransitions'
+import {states} from './utils/statesTransitions'
 import {
     AB_P, ALPHABET, ASTERISK, blank,
     DIGIT,
@@ -14,7 +14,9 @@ import {
     PLUS, PT_V,
     QUOTES, SLASH, symbolTable,
     UNDERLINE
-} from "./Alphabet";
+} from "./utils/Alphabet";
+
+import * as fs from 'fs/promises'
 
 //@todo tratar comentários
 //@todo tratar erros
@@ -58,25 +60,29 @@ function checkTableSymbol(token) {
 }
 
 function formatToken({lexema, state}) {
-    console.log({lexema, state})
     const isFinalState = checkFinalState(state)
     if (isFinalState) {
         let token = {...states['FINAL'][state], lexema}
         if (token.classe == 'ID') {
-            //se id, verificar se ta na tabela de simbolos
             token = checkTableSymbol(token)
         }
         if (token.classe == 'ERROR') {
             notifyError()
         }
-        console.log(token)
         return token
     }
 }
-function notifyError(){
-    //adicionar linha e coluna
+
+export async function readTextFile(pathName) {
+    let a = await fs.readFile(pathName);
+    console.log(a.toString());
+}
+
+function notifyError() {
+    //@todo adicionar linha e coluna
     console.log('Erro léxico - Caractere inesperado')
 }
+
 function validateErrorType({lexema, state}) {
     // Validação do tipo do erro quando é erro léxico
     const errorState = ['Q22']
