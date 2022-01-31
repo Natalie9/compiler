@@ -1,4 +1,4 @@
-import {states} from './statesTransitions'
+import {states} from './utils/statesTransitions'
 import {
     AB_P, ALPHABET, ASTERISK, blank,
     DIGIT,
@@ -14,36 +14,55 @@ import {
     PLUS, PT_V,
     QUOTES, SLASH, symbolTable,
     UNDERLINE
-} from "./Alphabet";
+} from "./utils/Alphabet";
+
+import * as fs from 'fs/promises'
+import * as path from 'path'
 
 //@todo tratar comentários
 //@todo tratar erros
 
-export function scanner(text: string, position: number = 0) {
-    const textAsArray = text.split('').slice(position)
+function readSourceCode(text, {line, column}) {
+    const textLines = text.split('\n')
     let lexema = ''
     let state = states['INITIAL']
-    for (let caractere of textAsArray) {
-        //demarca de uma posição foi lida
-        position++
-        //rece o proximo estado e qual o tipo que aquela entrada tem
-        let {nextState, generalType} = readValueReturnNewState(caractere, state)
-        //se não tiver proximo estado chegou ao fim do automato
-        if (!nextState) {
-            position--;
-            break
+
+    for (line; line < textLines.length; line++) {
+        let lineOfText = textLines[line]
+        const charactersOfLine = lineOfText.split('')
+        if(column>=charactersOfLine.length){
+            column = 0
+            continue
         }
-        //se tiver proximo estado, passa a ser o estado atual
-        state = nextState
-        //se o estado atual for 0 é pq n andou, ent a entrada não forma lexema, tal qual um erro
-        if (state != 'Q0' && generalType != 'ERRO')
-            lexema += caractere
+        for (column; column < charactersOfLine.length; column++) {
+            let character = charactersOfLine[column]
+
+            //recebe o proximo estado e qual o tipo que aquela entrada tem
+            let {nextState} = readValueReturnNewState(character, state)
+            //se não tiver proximo estado chegou ao fim do automato
+            if (!nextState) {
+                return {lexema, state, newPosition: [line, column]}
+            }
+            //se tiver proximo estado, passa a ser o estado atual
+            state = nextState
+            //se o estado atual for 0 é pq n andou, ent a entrada não forma lexema
+            if (state != 'Q0')
+                lexema += character
+        }
+        return {lexema, state, newPosition: [line, column]}
     }
+}
+
+export async function scanner(pathName: string, position: number[] = [0, 0]) {
+    const text = await readTextFile(path.join(__dirname, pathName))
+    let [line, column] = position
+    let {lexema, state, newPosition} = readSourceCode(text, {line, column})
     const token = formatToken({lexema, state})
-    console.log(token)
-    return {token, position}
+    console.log({token, position: newPosition})
+    return {token, position: newPosition}
 
 }
+
 
 //@todo como saber linha e coluna que o erro aconteceu?
 
@@ -52,27 +71,45 @@ function checkFinalState(state: any) {
 }
 
 function checkTableSymbol(token) {
-    if (token.classe == 'ID') {
-        if (!(token.lexema in symbolTable))
-            symbolTable[token.lexema] = token
-        return symbolTable[token.lexema]
-    }
-    return token
-
+    if (!(token.lexema in symbolTable))
+        symbolTable[token.lexema] = token
+    return symbolTable[token.lexema]
 }
 
 function formatToken({lexema, state}) {
     const isFinalState = checkFinalState(state)
     if (isFinalState) {
-        //se id verificar se ta na tabela de simbolos
         let token = {...states['FINAL'][state], lexema}
-        token = checkTableSymbol(token)
+        if (token.classe == 'ID') {
+            token = checkTableSymbol(token)
+        }
+        if (token.classe == 'ERROR') {
+            notifyError()
+        }
         return token
-    } else {
-        console.log('Lexema não reconhecido', lexema)
-        return false
     }
+}
 
+export async function readTextFile(pathName) {
+    return (await fs.readFile(pathName)).toString();
+}
+
+function notifyError() {
+    //@todo adicionar linha e coluna
+    console.log('Erro léxico - Caractere inesperado')
+}
+
+function validateErrorType({lexema, state}) {
+    // Validação do tipo do erro quando é erro léxico
+    const errorState = ['Q22']
+    if (errorState.includes(state)) {
+        let token = {...states['FINAL'][state], lexema}
+        let erro = 'Erro léxico - Caractere inválido na linguagem '.concat(lexema)
+        return {token, erro}
+    }
+    let token = {...states['FINAL'][state], lexema}
+    let erro = 'Erro léxico - Caractere inválido na linguagem '.concat(lexema)
+    return {token, erro}
 }
 
 function turnValueInSomeGeneralType(value: any) {
@@ -135,6 +172,5 @@ function readValueReturnNewState(value: string, state: string) {
     input = checkIfLetterIsExponencial({input, state, value})
     let nextState = states[state][input]
     return {nextState, generalType: input}
-
 }
 
