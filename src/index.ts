@@ -28,6 +28,7 @@ export function scanner(text: string, position: number = 0) {
         position++
         //rece o proximo estado e qual o tipo que aquela entrada tem
         let {nextState, generalType} = readValueReturnNewState(caractere, state)
+        console.log({nextState, generalType})
         //se não tiver proximo estado chegou ao fim do automato
         if (!nextState) {
             position--;
@@ -35,12 +36,11 @@ export function scanner(text: string, position: number = 0) {
         }
         //se tiver proximo estado, passa a ser o estado atual
         state = nextState
-        //se o estado atual for 0 é pq n andou, ent a entrada não forma lexema, tal qual um erro
-        if (state != 'Q0' && generalType != 'ERRO')
+        //se o estado atual for 0 é pq n andou, ent a entrada não forma lexema
+        if (state != 'Q0')
             lexema += caractere
     }
     const token = formatToken({lexema, state})
-   // console.log(token)
     return {token, position}
 
 }
@@ -52,27 +52,31 @@ function checkFinalState(state: any) {
 }
 
 function checkTableSymbol(token) {
-    if (token.classe == 'ID') {
-        if (!(token.lexema in symbolTable))
-            symbolTable[token.lexema] = token
-        return symbolTable[token.lexema]
-    }
-    return token
+    if (!(token.lexema in symbolTable))
+        symbolTable[token.lexema] = token
+    return symbolTable[token.lexema]
 }
 
 function formatToken({lexema, state}) {
+    console.log({lexema, state})
     const isFinalState = checkFinalState(state)
     if (isFinalState) {
-        //se id verificar se ta na tabela de simbolos
         let token = {...states['FINAL'][state], lexema}
-        token = checkTableSymbol(token)
+        if (token.classe == 'ID') {
+            //se id, verificar se ta na tabela de simbolos
+            token = checkTableSymbol(token)
+        }
+        if (token.classe == 'ERROR') {
+            notifyError()
+        }
+        console.log(token)
         return token
-    } else {
-        return validateErrorType({lexema, ...states['FINAL'][state]})
     }
-
 }
-
+function notifyError(){
+    //adicionar linha e coluna
+    console.log('Erro léxico - Caractere inesperado')
+}
 function validateErrorType({lexema, state}) {
     // Validação do tipo do erro quando é erro léxico
     const errorState = ['Q22']
@@ -81,7 +85,7 @@ function validateErrorType({lexema, state}) {
         let erro = 'Erro léxico - Caractere inválido na linguagem '.concat(lexema)
         return {token, erro}
     }
-    let token = {...states['FINAL'][state],  lexema}
+    let token = {...states['FINAL'][state], lexema}
     let erro = 'Erro léxico - Caractere inválido na linguagem '.concat(lexema)
     return {token, erro}
 }
