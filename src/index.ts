@@ -22,49 +22,55 @@ import * as path from 'path'
 //@todo tratar comentários
 //@todo tratar erros
 
-function readSourceCode(text, {line, column}) {
+function* readSourceCode(text) {
+
+
+}
+
+//@todo tratar fim de arquivo
+export async function* scanner(pathName: string) {
+    const text = await readTextFile(path.join(__dirname, pathName))
 
     const textLines = text.split('\n')
-    if (line >= textLines.length - 1) {
-        return {classe: 'EOF', tipo: 'NULO', lexema: 'eof', state: 'Q10', newPosition: [line, column]}
-    }
+    // if (line >= textLines.length - 1) {
+    //     return {classe: 'EOF', tipo: 'NULO', lexema: 'eof', state: 'Q10', newPosition: [line, column]}
+    // }
     let lexema = ''
     let state = states['INITIAL']
-    for (line; line < textLines.length - 1; line++) {
-        let lineOfText = textLines[line] || ' '
+    for (let line = 0; line < textLines.length; line++) {
+        let lineOfText = textLines[line]
+
         const charactersOfLine = lineOfText.split('')
-        if (column >= charactersOfLine.length) {
-            column = 0
-            continue
-        }
-        for (column; column < charactersOfLine.length; column++) {
+
+
+        for (let column = 0; column <= charactersOfLine.length; column++) {
             let character = charactersOfLine[column]
 
             //recebe o proximo estado e qual o tipo que aquela entrada tem
             let nextState = readValueReturnNewState(character, state)
             //se não tiver proximo estado chegou ao fim do automato
             if (!nextState) {
-                break
+                let position = [line, column]
+                const response = formatToken({lexema, state, position})
+                yield response
+                state = 'Q0'
+                lexema = ''
+            } else {
+                //se tiver proximo estado, passa a ser o estado atual
+                state = nextState
             }
-            //se tiver proximo estado, passa a ser o estado atual
-            state = nextState
             //se o estado atual for 0 é pq n andou, ent a entrada não forma lexema
             if (state != 'Q0')
                 lexema += character
         }
-        return {lexema, state, newPosition: [line, column]}
+
     }
+    let position = [0, 0]
+    yield formatToken({lexema: 'NULO', state: 'Q10', position})
 
-}
-
-//@todo tratar fim de arquivo
-export async function scanner(pathName: string, position: number[] = [0, 0]) {
-    const text = await readTextFile(path.join(__dirname, pathName))
-    let [line, column] = position
-    let {lexema, state, newPosition} = readSourceCode(text, {line, column})
-    console.log({lexema, state, newPosition})
-    const token = formatToken({lexema, state, position: newPosition})
-    return {token, position: newPosition}
+    //
+    // const token = formatToken({lexema, state, position: newPosition})
+    // return {token, position: newPosition}
 
 }
 

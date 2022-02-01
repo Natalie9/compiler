@@ -550,26 +550,34 @@ import {MGOL} from "../utils/sourceCode";
 const pathName = '/__tests__/teste.txt'
 describe('Test read file with sourceCode', () => {
     it('Read a file', async () => {
+        const scan = scanner(pathName)
+        console.log(await scan.next())
+        console.log(await scan.next())
+        console.log(await scan.next())
+        console.log(await scan.next())
+        console.log(await scan.next())
+        console.log(await scan.next())
 
-        const expectedTokenNat: IToken = {lexema: 'natalie', classe: 'ID', tipo: 'NULO'}
 
-        let response = await scanner(pathName)
-        expect(response.token).toEqual(expectedTokenNat)
-
-
-        const expectedTokenNum: IToken = {lexema: '234', classe: 'NUM', tipo: 'inteiro'}
-
-        response = await scanner(pathName, response.position)
-        expect(response.token).toEqual(expectedTokenNum)
-
-        response = await scanner(pathName, response.position)
-        console.log(response)
-
-        response = await scanner(pathName, response.position)
-        console.log(response)
-
-        response = await scanner(pathName, response.position)
-        console.log(response)
+        // const expectedTokenNat: IToken = {lexema: 'natalie', classe: 'ID', tipo: 'NULO'}
+        //
+        // let response = await scanner(pathName)
+        // expect(response.token).toEqual(expectedTokenNat)
+        //
+        //
+        // const expectedTokenNum: IToken = {lexema: '234', classe: 'NUM', tipo: 'inteiro'}
+        //
+        // response = await scanner(pathName, response.position)
+        // expect(response.token).toEqual(expectedTokenNum)
+        //
+        // response = await scanner(pathName, response.position)
+        // console.log(response)
+        //
+        // response = await scanner(pathName, response.position)
+        // console.log(response)
+        //
+        // response = await scanner(pathName, response.position)
+        // console.log(response)
 
 
     })
