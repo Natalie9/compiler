@@ -1,4 +1,4 @@
-export const PT_V = [";"]
+export const PT_V = ";"
 export const QUOTES = ['"', "'", '"']
 export const UNDERLINE = "_"
 export const LESS = "<"
@@ -42,9 +42,9 @@ export const LETTER = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l
     "Y",
     "Z"
 ]
-export const CARACTERES = ["{", "}", LESS, MORE, EQUAL, ...OPM, DOT, ",", ...PT_V, ":", "!", "?", "\\", AB_P, FC_P, "[", "]", UNDERLINE, ...QUOTES]
+export const CARACTERES = ["{", "}", LESS, MORE, EQUAL, ...OPM, DOT, ",", PT_V, ":", "!", "?", "\\", AB_P, FC_P, "[", "]", UNDERLINE, ...QUOTES]
 export const ALPHABET = [...DIGIT, ...LETTER, ...CARACTERES, EXPONENTIAL]
-export const blank = [" ", "   ", "\n"]
+export const blank = [" ", "   ", "\n", "        "]
 
 //@todo colocar letras maiusculas no alfabeto
 

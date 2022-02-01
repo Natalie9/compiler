@@ -43,7 +43,7 @@ export async function* scanner(pathName: string) {
         const charactersOfLine = lineOfText.split('')
 
 
-        for (let column = 0; column <= charactersOfLine.length; column++) {
+        for (let column = 0; column < charactersOfLine.length; column++) {
             let character = charactersOfLine[column]
 
             //recebe o proximo estado e qual o tipo que aquela entrada tem
@@ -53,6 +53,7 @@ export async function* scanner(pathName: string) {
                 let position = [line, column]
                 const response = formatToken({lexema, state, position})
                 yield response
+                column--
                 state = 'Q0'
                 lexema = ''
             } else {
@@ -66,11 +67,9 @@ export async function* scanner(pathName: string) {
 
     }
     let position = [0, 0]
-    yield formatToken({lexema: 'NULO', state: 'Q10', position})
-
-    //
-    // const token = formatToken({lexema, state, position: newPosition})
-    // return {token, position: newPosition}
+    const stateEOF = 'Q10'
+    const tokenEOF = {...states['FINAL'][stateEOF]}
+    yield formatToken({...tokenEOF, state: stateEOF,  position})
 
 }
 
