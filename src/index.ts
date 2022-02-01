@@ -177,3 +177,16 @@ function readValueReturnNewState(value: string, state: string) {
     return nextState
 }
 
+async function main (){
+    const args = process.argv;;
+
+    const scan = scanner(args[2])
+    let done = false
+    while (!done) {
+        let response = await scan.next()
+        console.log(response.value)
+        done = response.done
+    }
+}
+main()
+
