@@ -4,6 +4,6 @@ Para rodar os testes do projeto rode:
 
 para instalar as dependências 
 
-`yarn test`
+`yarn dev`
 
-para executar os testes 
+para executar o código
