@@ -9,7 +9,7 @@ import {
     LESS,
     LETTER,
     MINUS,
-    MORE,
+    MORE, newLine,
     OPM,
     PLUS, PT_V,
     QUOTES, SLASH, symbolTable,
@@ -19,22 +19,16 @@ import {
 import * as fs from 'fs/promises'
 import * as path from 'path'
 
-//@todo tratar comentários
-//@todo tratar erros
 
 function* readSourceCode(text) {
 
 
 }
 
-//@todo tratar fim de arquivo
 export async function* scanner(pathName: string) {
     const text = await readTextFile(path.join(__dirname, pathName))
 
     const textLines = text.split('\n')
-    // if (line >= textLines.length - 1) {
-    //     return {classe: 'EOF', tipo: 'NULO', lexema: 'eof', state: 'Q10', newPosition: [line, column]}
-    // }
     let lexema = ''
     let state = states['INITIAL']
     let isComment = false
@@ -81,7 +75,6 @@ export async function* scanner(pathName: string) {
 }
 
 
-//@todo como saber linha e coluna que o erro aconteceu?
 function checkFinalState(state: any) {
     return state in states['FINAL'] ? true : false
 }
@@ -100,10 +93,13 @@ function formatToken({lexema, state, position}) {
             token = checkTableSymbol(token)
         }
         if (token.classe == 'ERROR') {
-            notifyError(position)
+            notifyError(position, lexema)
             token = {...states['FINAL'][state]}
         }
         return token
+    } else {
+        console.log(`Erro léxico - Palavra não reconhecida`)
+        return {classe: 'ERROR', tipo: 'NULO', lexema: 'NULO'}
     }
 }
 
@@ -111,23 +107,11 @@ export async function readTextFile(pathName) {
     return (await fs.readFile(pathName)).toString();
 }
 
-function notifyError(position) {
+function notifyError(position, lexema) {
     let [line, column] = position
-    console.log(`Erro léxico - Caractere inesperado na linha ${line + 1}, coluna ${column}`)
+    console.log(`Erro léxico - Caractere inesperado na linha ${line + 1}, coluna ${column} > ${lexema}`)
 }
 
-function validateErrorType({lexema, state}) {
-    // Validação do tipo do erro quando é erro léxico
-    const errorState = ['Q22']
-    if (errorState.includes(state)) {
-        let token = {...states['FINAL'][state], lexema}
-        let erro = 'Erro léxico - Caractere inválido na linguagem '.concat(lexema)
-        return {token, erro}
-    }
-    let token = {...states['FINAL'][state], lexema}
-    let erro = 'Erro léxico - Caractere inválido na linguagem '.concat(lexema)
-    return {token, erro}
-}
 
 function turnValueInSomeGeneralType(value: any) {
     switch (true) {
@@ -163,9 +147,11 @@ function turnValueInSomeGeneralType(value: any) {
             return 'FC_P'
         case PT_V.includes(value):
             return 'PT_V'
-        //@todo a ideia de alphabet pra englobar qualquer entrada e reduzir o automato nao deu certo pois sempre entra em um anterior
+        //a ideia de alphabet pra englobar qualquer entrada e reduzir o automato nao deu certo pois sempre entra em um anterior
         case ALPHABET.includes(value):
             return 'ALPHABET'
+        case newLine.includes(value):
+            return 'newLine'
         case blank.includes(value):
             return 'BLANK'
         default:

@@ -1,5 +1,7 @@
 //@TODO vou TRATAR A ENTRADA INVÁLIDA SOMENTE PEGANDO O UNDEFINED?
 
+import {newLine} from "./Alphabet";
+
 export const states: any = {
     'Q0': {
         'DIGIT': 'Q1',
@@ -58,6 +60,7 @@ export const states: any = {
         'ALPHABET': 'Q6',
         'BLANK': 'Q6',
         'CARACTERES': 'Q6',
+        'newLine': 'Q22',
         'QUOTES': 'Q8'
     },
     "Q8": {},

@@ -44,7 +44,8 @@ export const LETTER = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l
 ]
 export const CARACTERES = ["{", "}", LESS, MORE, EQUAL, ...OPM, DOT, ",", PT_V, ":", "!", "?", "\\", AB_P, FC_P, "[", "]", UNDERLINE, ...QUOTES]
 export const ALPHABET = [...DIGIT, ...LETTER, ...CARACTERES, EXPONENTIAL]
-export const blank = [" ", "   ", "\n", "        "]
+export const newLine = '\n'
+export const blank = [" ", "   ", newLine, "        "]
 
 //@todo colocar letras maiusculas no alfabeto
 
