@@ -62,7 +62,7 @@ export let symbolTable = {
     'fim': {classe: 'fim', lexema: 'fim', tipo: 'fim'},
     'inteiro': {classe: 'inteiro', lexema: 'inteiro', tipo: 'inteiro'},
     'literal': {classe: 'literal', lexema: 'literal', tipo: 'literal'},
-    'real': {classe: 'real', lexema: 'real', tipo: 'real'},
+    'real': {classe: 'real', lexema: 'real', tipo: 'real'}
 }
 
 

@@ -23,14 +23,17 @@ import * as path from 'path'
 //@todo tratar erros
 
 function readSourceCode(text, {line, column}) {
+
     const textLines = text.split('\n')
+    if (line >= textLines.length - 1) {
+        return {classe: 'EOF', tipo: 'NULO', lexema: 'eof', state: 'Q10', newPosition: [line, column]}
+    }
     let lexema = ''
     let state = states['INITIAL']
-
-    for (line; line < textLines.length; line++) {
-        let lineOfText = textLines[line]
+    for (line; line < textLines.length - 1; line++) {
+        let lineOfText = textLines[line] || ' '
         const charactersOfLine = lineOfText.split('')
-        if(column>=charactersOfLine.length){
+        if (column >= charactersOfLine.length) {
             column = 0
             continue
         }
@@ -38,10 +41,10 @@ function readSourceCode(text, {line, column}) {
             let character = charactersOfLine[column]
 
             //recebe o proximo estado e qual o tipo que aquela entrada tem
-            let {nextState} = readValueReturnNewState(character, state)
+            let nextState = readValueReturnNewState(character, state)
             //se não tiver proximo estado chegou ao fim do automato
             if (!nextState) {
-                return {lexema, state, newPosition: [line, column]}
+                break
             }
             //se tiver proximo estado, passa a ser o estado atual
             state = nextState
@@ -51,21 +54,22 @@ function readSourceCode(text, {line, column}) {
         }
         return {lexema, state, newPosition: [line, column]}
     }
+
 }
 
+//@todo tratar fim de arquivo
 export async function scanner(pathName: string, position: number[] = [0, 0]) {
     const text = await readTextFile(path.join(__dirname, pathName))
     let [line, column] = position
     let {lexema, state, newPosition} = readSourceCode(text, {line, column})
-    const token = formatToken({lexema, state})
-    console.log({token, position: newPosition})
+    console.log({lexema, state, newPosition})
+    const token = formatToken({lexema, state, position: newPosition})
     return {token, position: newPosition}
 
 }
 
 
 //@todo como saber linha e coluna que o erro aconteceu?
-
 function checkFinalState(state: any) {
     return state in states['FINAL'] ? true : false
 }
@@ -76,7 +80,7 @@ function checkTableSymbol(token) {
     return symbolTable[token.lexema]
 }
 
-function formatToken({lexema, state}) {
+function formatToken({lexema, state, position}) {
     const isFinalState = checkFinalState(state)
     if (isFinalState) {
         let token = {...states['FINAL'][state], lexema}
@@ -84,7 +88,8 @@ function formatToken({lexema, state}) {
             token = checkTableSymbol(token)
         }
         if (token.classe == 'ERROR') {
-            notifyError()
+            notifyError(position)
+            token = {...states['FINAL'][state]}
         }
         return token
     }
@@ -94,9 +99,9 @@ export async function readTextFile(pathName) {
     return (await fs.readFile(pathName)).toString();
 }
 
-function notifyError() {
-    //@todo adicionar linha e coluna
-    console.log('Erro léxico - Caractere inesperado')
+function notifyError(position) {
+    let [line, column] = position
+    console.log(`Erro léxico - Caractere inesperado na linha ${line + 1}, coluna ${column}`)
 }
 
 function validateErrorType({lexema, state}) {
@@ -171,6 +176,6 @@ function readValueReturnNewState(value: string, state: string) {
     let input = turnValueInSomeGeneralType(value)
     input = checkIfLetterIsExponencial({input, state, value})
     let nextState = states[state][input]
-    return {nextState, generalType: input}
+    return nextState
 }
 
