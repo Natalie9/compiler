@@ -37,6 +37,7 @@ export async function* scanner(pathName: string) {
     // }
     let lexema = ''
     let state = states['INITIAL']
+    let isComment = false
     for (let line = 0; line < textLines.length; line++) {
         let lineOfText = textLines[line]
 
@@ -44,7 +45,13 @@ export async function* scanner(pathName: string) {
 
 
         for (let column = 0; column < charactersOfLine.length; column++) {
-            let character = charactersOfLine[column]
+            let character: string = charactersOfLine[column]
+            //para reconhecer mas n retornar o comentario
+            if (character == '{' || isComment) {
+                isComment = true
+                if (character == '}') isComment = false
+                continue
+            }
 
             //recebe o proximo estado e qual o tipo que aquela entrada tem
             let nextState = readValueReturnNewState(character, state)
@@ -69,7 +76,7 @@ export async function* scanner(pathName: string) {
     let position = [0, 0]
     const stateEOF = 'Q10'
     const tokenEOF = {...states['FINAL'][stateEOF]}
-    yield formatToken({...tokenEOF, state: stateEOF,  position})
+    yield formatToken({...tokenEOF, state: stateEOF, position})
 
 }
 

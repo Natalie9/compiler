@@ -1,9 +1,10 @@
 import {readTextFile, scanner} from "../index";
 import {IToken} from "../models/Token";
 import {MGOL} from "../utils/sourceCode";
+
 const pathName = '/__tests__/teste.txt'
 
-describe('Test scanner read some source code',  () => {
+describe('Test scanner read some source code', () => {
     let readPosition = 0
     let response
 
@@ -492,7 +493,7 @@ describe('Test scanner read some source code',  () => {
     })
     it('Should read source code and return string token', async () => {
         //@todo verificar \n
-        const expectedTokenLit: IToken = {lexema: '"\"\"', tipo: 'literal', classe: 'LIT'}
+        const expectedTokenLit: IToken = {lexema: '"\"\\n"', tipo: 'literal', classe: 'LIT'}
         response = await scan.next()
         expect(response.value).toEqual(expectedTokenLit)
     })
@@ -549,38 +550,15 @@ describe('Test scanner read some source code',  () => {
     })
 })
 
-describe('Test read file with sourceCode',  () => {
+describe('Test read file with sourceCode', () => {
     it('Read a file', async () => {
         const scan = scanner(pathName)
         let done = false
-        while(!done){
+        while (!done) {
             let response = await scan.next()
             console.log(response.value)
             done = response.done
         }
-
-
-
-        // const expectedTokenNat: IToken = {lexema: 'natalie', classe: 'ID', tipo: 'NULO'}
-        //
-        // let response = await scanner(pathName)
-        // expect(response.value).toEqual(expectedTokenNat)
-        //
-        //
-        // const expectedTokenNum: IToken = {lexema: '234', classe: 'NUM', tipo: 'inteiro'}
-        //
-        // response = await scanner(pathName, response.position)
-        // expect(response.value).toEqual(expectedTokenNum)
-        //
-        // response = await scanner(pathName, response.position)
-        // console.log(response)
-        //
-        // response = await scanner(pathName, response.position)
-        // console.log(response)
-        //
-        // response = await scanner(pathName, response.position)
-        // console.log(response)
-
 
     })
 
