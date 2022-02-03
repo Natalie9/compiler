@@ -1,5 +1,5 @@
 inicio
-    varinicio
+    varinicio 2e+4
         literal A;
         inteiro B;
         inteiro D;

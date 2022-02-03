@@ -27,7 +27,9 @@ export const states: any = {
         'EXPONENTIAL': 'Q7'
     },
     'Q7': {
-      'DIGIT': 'Q23'
+        'DIGIT': 'Q23',
+        'PLUS': 'Q7',
+        'MINUS': 'Q7'
     },
     'Q2': {
         'DIGIT': 'Q2',

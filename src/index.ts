@@ -18,12 +18,8 @@ import {
 
 import * as fs from 'fs/promises'
 import * as path from 'path'
+import {IToken} from "./models/Token";
 
-
-function* readSourceCode(text) {
-
-
-}
 
 export async function* scanner(pathName: string) {
     const text = await readTextFile(path.join(__dirname, pathName))
@@ -37,9 +33,9 @@ export async function* scanner(pathName: string) {
 
         const charactersOfLine = lineOfText.split('')
 
-
         for (let column = 0; column < charactersOfLine.length; column++) {
             let character: string = charactersOfLine[column]
+
             //para reconhecer mas n retornar o comentario
             if (character == '{' || isComment) {
                 isComment = true
@@ -163,7 +159,7 @@ function turnValueInSomeGeneralType(value: any) {
 
 function checkIfLetterIsExponencial({input, state, value}) {
     // Nos casos em que o número é exponencial precisamos de uma validação para que o e|E não entre no caso letter
-    const numberStates = ['Q1', 'Q3']
+    const numberStates = ['Q1', 'Q2', 'Q3']
     if (numberStates.includes(state) && EXPONENTIAL.includes(value)) {
         return 'EXPONENTIAL'
     }
@@ -177,8 +173,9 @@ function readValueReturnNewState(value: string, state: string) {
     return nextState
 }
 
-async function main (){
-    const args = process.argv;;
+async function main() {
+    const args = process.argv;
+    ;
 
     const scan = scanner(args[2])
     let done = false
@@ -188,5 +185,6 @@ async function main (){
         done = response.done
     }
 }
+
 main()
 
