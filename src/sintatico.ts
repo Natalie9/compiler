@@ -22,7 +22,6 @@ async function  main(){
 
     const initialState = '0'
     let stack = [initialState]
-
     let done = false
     while (!done) {
         let response = await scan.next()
@@ -36,14 +35,18 @@ async function  main(){
     }
 }
 export function checkAction(token, stack){
+    console.log({token})
+    console.log({stack})
     const topOfStack = stack[stack.length - 1]
     // (3) seja s o estado no topo da pilha;
     const s = topOfStack
-    const a = token.classe
-
-    let action = ACTION_TABLE[s][a].slice(0, 1)
-    let t = ACTION_TABLE[s][a].slice(1, action.length)
-
+    const a = token.classe.toLowerCase()
+    console.log({s, a})
+    const resultTable = ACTION_TABLE[s][a]
+    console.log({resultTable})
+    let action = resultTable.toString().slice(0, 1)
+    let t = resultTable.slice(1, action.length + 2)
+    console.log({action, t})
     if(action == 'S'){
         // (5) empilha t na pilha;
         stack.push(t)
@@ -53,6 +56,7 @@ export function checkAction(token, stack){
     else if(action == 'R'){
         // A->beta
         const rule = RULES[t].split('->')
+        console.log({rule})
         const A = rule[0]
         const beta = rule[1].split(' ')
 

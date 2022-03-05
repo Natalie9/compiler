@@ -3525,7 +3525,8 @@ export const GOTO_TABLE =
 export const RULES = {
     '1' : 'P->P',
     '2' : 'P->inicio V A',
-    '3' : 'V->varincio LV'
+    '3' : 'V->varincio LV',
+    '10' : 'TIPO->literal'
 
 }
 // 3 V->varincio LV
@@ -3535,7 +3536,7 @@ export const RULES = {
 // 7 L->id
 // 8 TIPO->inteiro
 // 9 TIPO->real
-// 10 TIPO->literal
+
 // 11 A->ES A
 // 12 ES->leia id pt_v
 // 13 ES->escreva ARG pt_v
