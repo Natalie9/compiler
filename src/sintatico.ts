@@ -1,5 +1,7 @@
 import {scanner} from "./index";
+import * as fs from 'fs';
 
+import {parse} from 'csv-parse'
 // (1) Seja a o primeiro símbolo de w$;
 // (2) while { /*Repita indefinidamente*/
 //     (3) seja s o estado no topo da pilha;
@@ -15,6 +17,19 @@ import {scanner} from "./index";
 // (13) else invocar uma rotina de recuperação do erro;
 
 //@todo importar o csv e transformar numa matrix, ou, um objeto
+
+const data = {}
+fs.createReadStream(__dirname+ '/actions.csv')
+    .pipe(parse({ delimiter: ',' , columns: true}))
+    .on('data', (r) => {
+        const position = Object.keys(data).length
+        data[position] = r
+    })
+    .on('end', () => {
+        console.log(data);
+    })
+
+
 
 const ACTION_TABLE = {
     '0': {'inicio' : 'S2'},
@@ -51,7 +66,7 @@ async function  main(){
                //@todo quanto é beta?
                stack.pop()
                stack.push(state)
-               const goto = GOTO_TABLE[state][]
+               // const goto = GOTO_TABLE[state][]
 
            }
 
@@ -59,4 +74,4 @@ async function  main(){
 
     }
 }
-main()
+// main()
