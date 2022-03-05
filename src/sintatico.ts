@@ -1,7 +1,5 @@
 import {scanner} from "./index";
-import * as fs from 'fs';
 
-import {parse} from 'csv-parse'
 // (1) Seja a o primeiro símbolo de w$;
 // (2) while { /*Repita indefinidamente*/
 //     (3) seja s o estado no topo da pilha;
@@ -15,30 +13,6 @@ import {parse} from 'csv-parse'
 //     (11) imprima a produção A-> β ;
 //     (12) } else if (ACTION [s,a] = accept ) pare; /* a análise terminou*/
 // (13) else invocar uma rotina de recuperação do erro;
-
-//@todo importar o csv e transformar numa matrix, ou, um objeto
-
-const data = {}
-fs.createReadStream(__dirname+ '/actions.csv')
-    .pipe(parse({ delimiter: ',' , columns: true}))
-    .on('data', (r) => {
-        const position = Object.keys(data).length
-        data[position] = r
-    })
-    .on('end', () => {
-        console.log(data);
-    })
-
-
-
-const ACTION_TABLE = {
-    '0': {'inicio' : 'S2'},
-    '2': {'varinicio': 'S4'}
-}
-// @todo acho que o GOTO tem que trazer a regra completa
-const GOTO_TABLE = {
-    '0': {'P': '1'}
-}
 
 
 async function  main(){
