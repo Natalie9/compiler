@@ -3526,42 +3526,40 @@ export const RULES = {
     '1' : 'P->P',
     '2' : 'P->inicio V A',
     '3' : 'V->varincio LV',
-    '10' : 'TIPO->literal'
-
+    '4' : 'LV->D LV',
+    '5' : 'LV->varfim pt_v',
+    '6' : 'D->TIPO L pt_v',
+    '7' : 'L->id',
+    '8' : 'TIPO->inteiro',
+    '9' : 'TIPO->real',
+    '10' : 'TIPO->literal',
+    '11' : 'A->ES A',
+    '12' : 'ES->leia id pt_v',
+    '13' : 'ES->escreva ARG pt_v',
+    '14' : 'ARG-> lit',
+    '15' : 'ARG->num',
+    '16' : 'ARG->id',
+    '17' : 'A->CMD A',
+    '18' : 'CMD->id rcb LD pt_v',
+    '19' : 'LD->OPRD opm OPRD',
+    '20' : 'LD->OPRD',
+    '21' : 'OPRD->id',
+    '22' : 'OPRD->num',
+    '23' : 'A->COND A',
+    '24' : 'COND->CAB CP',
+    '25' : 'CAB->se ab_p EXP_R fc_p então',
+    '26' : 'EXP_R->OPRD opr OPRD',
+    '27' : 'CP->ES CP',
+    '28' : 'CP->CMD CP',
+    '29' : 'CP->COND CP',
+    '30' : 'CP->fimse',
+    '31' : 'A->R A',
+    '32' : 'R->CABR CPR',
+    '33' : 'CABR->repita ab_p EXP_R fc_p',
+    '34' : 'CPR->ES CPR',
+    '35' : 'CPR->CMD CPR',
+    '36' : 'CPR->COND CPR',
+    '37' : 'CPR->fimrepita',
+    '38' : 'A->fim'
 }
-// 3 V->varincio LV
-// 4 LV->D LV
-// 5 LV->varfim pt_v
-// 6 D->TIPO L pt_v
-// 7 L->id
-// 8 TIPO->inteiro
-// 9 TIPO->real
 
-// 11 A->ES A
-// 12 ES->leia id pt_v
-// 13 ES->escreva ARG pt_v
-// 14 ARG->lit
-// 15 ARG->num
-// 16 ARG->id
-// 17 A->CMD A
-// 18 CMD->id rcb LD pt_v
-// 19 LD->OPRD opm OPRD
-// 20 LD->OPRD
-// 21 OPRD->id
-// 22 OPRD->num
-// 23 A->COND A
-// 24 COND->CAB CP
-// 25 CAB->se ab_p EXP_R fc_p então
-// 26 EXP_R->OPRD opr OPRD
-// 27 CP->ES CP
-// 28 CP->CMD CP
-// 29 CP->COND CP
-// 30 CP->fimse
-// 31 A->R A
-// 32 R ->CABR CPR
-// 33 CABR ->repita ab_p EXP_R fc_p
-// 34 CPR->ES CPR
-// 35 CPR->CMD CPR
-// 36 CPR->COND CPR
-// 37 CPR->fimrepita
-// 38 A->fim
