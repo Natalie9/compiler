@@ -1356,7 +1356,7 @@ export const ACTION_TABLE =
         varinicio: '',
         varfim: '',
         pt_v: 'R7',
-        id: '',
+        id: 'R3',
         inteiro: '',
         real: '',
         literal: '',

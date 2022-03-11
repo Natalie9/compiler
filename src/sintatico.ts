@@ -23,11 +23,13 @@ async function  main(){
     const initialState = '0'
     let stack = [initialState]
     let done = false
+    console.log("stack, entrada, s, a, beta, t, A, action")
     while (!done) {
         let response = await scan.next()
         done = true
         let token = response.value
         done = response.done
+
         const result = checkAction(token, stack)
         if(result){
             console.log(result)
@@ -35,30 +37,27 @@ async function  main(){
     }
 }
 export function checkAction(token, stack){
-    console.log({token})
-    console.log({stack})
+    let beta
+    let A
     const topOfStack = stack[stack.length - 1]
     // (3) seja s o estado no topo da pilha;
     const s = topOfStack
     const a = token.classe.toLowerCase()
-    console.log({s, a})
     const resultTable = ACTION_TABLE[s][a]
-    console.log({resultTable})
     let action = resultTable.toString().slice(0, 1)
     let t = resultTable.slice(1, action.length + 2)
-    console.log({action, t})
     if(action == 'S'){
         // (5) empilha t na pilha;
         stack.push(t)
         // (6) seja a o próximo símbolo da entrada; volta pro while
+        print({stack, entrada: token.lexema, s, a, beta, A , t, action: resultTable })
         return
     }
     else if(action == 'R'){
         // A->beta
         const rule = RULES[t].split('->')
-        console.log({rule})
-        const A = rule[0]
-        const beta = rule[1].split(' ')
+        A = rule[0]
+         beta = rule[1].split(' ')
 
         // (8) desempilha | β | símbolos da pilha (a quantidade de símbolos de beta);
         beta.forEach(()=>{
@@ -70,6 +69,7 @@ export function checkAction(token, stack){
         const goto = GOTO_TABLE[t][A]
         stack.push(goto)
         // (11) imprima a produção A-> β ;
+        print({stack, entrada: token.lexema, s, a, beta, t, A, action: resultTable })
         return rule.join('->')
     }
     else if(action == 'ACC'){
@@ -77,11 +77,16 @@ export function checkAction(token, stack){
         return 'aceito'
     }
     else {
+        print({stack, entrada: token.lexema, s, a, beta, A , t, action: resultTable })
         // @todo rotina
         return 'erro'
     }
 
 
+}
+function print({stack, entrada, s, a, beta, t, A, action}){
+
+    console.log(stack, entrada, s, a, beta, t, A, action)
 }
 
 main()
