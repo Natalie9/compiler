@@ -25,7 +25,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '1': {
     state: '1',
@@ -52,7 +52,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': 'ACC'
+        'EOF': 'ACC'
 },
     '2': {
     state: '2',
@@ -79,7 +79,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '3': {
     state: '3',
@@ -106,7 +106,7 @@ export const ACTION_TABLE =
         repita: 'S17',
         fimrepita: '',
         fim: 'S10',
-        '$': ''
+        'EOF': ''
 },
     '4': {
     state: '4',
@@ -133,7 +133,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '5': {
     state: '5',
@@ -160,7 +160,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': 'R2'
+        'EOF': 'R2'
 },
     '6': {
     state: '6',
@@ -187,7 +187,7 @@ export const ACTION_TABLE =
         repita: 'S17',
         fimrepita: '',
         fim: 'S10',
-        '$': ''
+        'EOF': ''
 },
     '7': {
     state: '7',
@@ -214,7 +214,7 @@ export const ACTION_TABLE =
         repita: 'S17',
         fimrepita: '',
         fim: 'S10',
-        '$': ''
+        'EOF': ''
 },
     '8': {
     state: '8',
@@ -241,7 +241,7 @@ export const ACTION_TABLE =
         repita: 'S17',
         fimrepita: '',
         fim: 'S10',
-        '$': ''
+        'EOF': ''
 },
     '9': {
     state: '9',
@@ -268,7 +268,7 @@ export const ACTION_TABLE =
         repita: 'S17',
         fimrepita: '',
         fim: 'S10',
-        '$': ''
+        'EOF': ''
 },
     '10': {
     state: '10',
@@ -295,7 +295,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': 'R38'
+        'EOF': 'R38'
 },
     '11': {
     state: '11',
@@ -322,7 +322,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '12': {
     state: '12',
@@ -349,7 +349,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '13': {
     state: '13',
@@ -376,7 +376,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '14': {
     state: '14',
@@ -403,7 +403,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '15': {
     state: '15',
@@ -430,7 +430,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: 'S44',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '16': {
     state: '16',
@@ -457,7 +457,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '17': {
     state: '17',
@@ -484,7 +484,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '18': {
     state: '18',
@@ -511,7 +511,7 @@ export const ACTION_TABLE =
         repita: 'R3',
         fimrepita: '',
         fim: 'R3',
-        '$': ''
+        'EOF': ''
 },
     '19': {
     state: '19',
@@ -538,7 +538,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '20': {
     state: '20',
@@ -565,7 +565,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '21': {
     state: '21',
@@ -592,7 +592,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '22': {
     state: '22',
@@ -619,7 +619,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '23': {
     state: '23',
@@ -646,7 +646,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '24': {
     state: '24',
@@ -673,7 +673,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '25': {
     state: '25',
@@ -700,7 +700,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': 'R11'
+        'EOF': 'R11'
 },
     '26': {
     state: '26',
@@ -727,7 +727,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': 'R17'
+        'EOF': 'R17'
 },
     '27': {
     state: '27',
@@ -754,7 +754,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': 'R23'
+        'EOF': 'R23'
 },
     '28': {
     state: '28',
@@ -781,7 +781,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': 'R31'
+        'EOF': 'R31'
 },
     '29': {
     state: '29',
@@ -808,7 +808,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '30': {
     state: '30',
@@ -835,7 +835,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '31': {
     state: '31',
@@ -862,7 +862,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '32': {
     state: '32',
@@ -889,7 +889,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '33': {
     state: '33',
@@ -916,7 +916,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '34': {
     state: '34',
@@ -943,7 +943,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '35': {
     state: '35',
@@ -970,7 +970,7 @@ export const ACTION_TABLE =
         repita: 'R24',
         fimrepita: 'R24',
         fim: 'R24',
-        '$': ''
+        'EOF': ''
 },
     '36': {
     state: '36',
@@ -997,7 +997,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '37': {
     state: '37',
@@ -1024,7 +1024,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '38': {
     state: '38',
@@ -1051,7 +1051,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '39': {
     state: '39',
@@ -1078,7 +1078,7 @@ export const ACTION_TABLE =
         repita: 'R30',
         fimrepita: 'R30',
         fim: 'R30',
-        '$': ''
+        'EOF': ''
 },
     '40': {
     state: '40',
@@ -1105,7 +1105,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: 'R32',
-        '$': ''
+        'EOF': ''
 },
     '41': {
     state: '41',
@@ -1132,7 +1132,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: 'S44',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '42': {
     state: '42',
@@ -1159,7 +1159,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: 'S44',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '43': {
     state: '43',
@@ -1186,7 +1186,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: 'S44',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '44': {
     state: '44',
@@ -1213,7 +1213,7 @@ export const ACTION_TABLE =
         repita: 'R37',
         fimrepita: '',
         fim: 'R37',
-        '$': ''
+        'EOF': ''
 },
     '45': {
     state: '45',
@@ -1240,7 +1240,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '46': {
     state: '46',
@@ -1267,7 +1267,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '47': {
     state: '47',
@@ -1294,7 +1294,7 @@ export const ACTION_TABLE =
         repita: 'R4',
         fimrepita: '',
         fim: 'R4',
-        '$': ''
+        'EOF': ''
 },
     '48': {
     state: '48',
@@ -1321,7 +1321,7 @@ export const ACTION_TABLE =
         repita: 'R5',
         fimrepita: '',
         fim: 'R5',
-        '$': ''
+        'EOF': ''
 },
     '49': {
     state: '49',
@@ -1348,7 +1348,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '50': {
     state: '50',
@@ -1375,7 +1375,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '51': {
     state: '51',
@@ -1402,7 +1402,7 @@ export const ACTION_TABLE =
         repita: 'R12',
         fimrepita: 'R12',
         fim: 'R12',
-        '$': ''
+        'EOF': ''
 },
     '52': {
     state: '52',
@@ -1429,7 +1429,7 @@ export const ACTION_TABLE =
         repita: 'R13',
         fimrepita: 'R13',
         fim: 'R13',
-        '$': ''
+        'EOF': ''
 },
     '53': {
     state: '53',
@@ -1456,7 +1456,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '54': {
     state: '54',
@@ -1483,7 +1483,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '55': {
     state: '55',
@@ -1510,7 +1510,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '56': {
     state: '56',
@@ -1537,7 +1537,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '57': {
     state: '57',
@@ -1564,7 +1564,7 @@ export const ACTION_TABLE =
         repita: 'R27',
         fimrepita: 'R27',
         fim: 'R27',
-        '$': ''
+        'EOF': ''
 },
     '58': {
     state: '58',
@@ -1591,7 +1591,7 @@ export const ACTION_TABLE =
         repita: 'R28',
         fimrepita: 'R28',
         fim: 'R28',
-        '$': ''
+        'EOF': ''
 },
     '59': {
     state: '59',
@@ -1618,7 +1618,7 @@ export const ACTION_TABLE =
         repita: 'R29',
         fimrepita: 'R29',
         fim: 'R29',
-        '$': ''
+        'EOF': ''
 },
     '60': {
     state: '60',
@@ -1645,7 +1645,7 @@ export const ACTION_TABLE =
         repita: 'R34',
         fimrepita: '',
         fim: 'R34',
-        '$': ''
+        'EOF': ''
 },
     '61': {
     state: '61',
@@ -1672,7 +1672,7 @@ export const ACTION_TABLE =
         repita: 'R35',
         fimrepita: '',
         fim: 'R35',
-        '$': ''
+        'EOF': ''
 },
     '62': {
     state: '62',
@@ -1699,7 +1699,7 @@ export const ACTION_TABLE =
         repita: 'R36',
         fimrepita: '',
         fim: 'R36',
-        '$': ''
+        'EOF': ''
 },
     '63': {
     state: '63',
@@ -1726,7 +1726,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '64': {
     state: '64',
@@ -1753,7 +1753,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '65': {
     state: '65',
@@ -1780,7 +1780,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '66': {
     state: '66',
@@ -1807,7 +1807,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '67': {
     state: '67',
@@ -1834,7 +1834,7 @@ export const ACTION_TABLE =
         repita: 'R18',
         fimrepita: 'R18',
         fim: 'R18',
-        '$': ''
+        'EOF': ''
 },
     '68': {
     state: '68',
@@ -1861,7 +1861,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '69': {
     state: '69',
@@ -1888,7 +1888,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '70': {
     state: '70',
@@ -1915,7 +1915,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '71': {
     state: '71',
@@ -1942,7 +1942,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: 'R33',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '72': {
     state: '72',
@@ -1969,7 +1969,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '73': {
     state: '73',
@@ -1996,7 +1996,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 },
     '74': {
     state: '74',
@@ -2023,7 +2023,7 @@ export const ACTION_TABLE =
         repita: '',
         fimrepita: '',
         fim: '',
-        '$': ''
+        'EOF': ''
 }
 }
 
