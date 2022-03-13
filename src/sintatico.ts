@@ -1,5 +1,5 @@
 import {scanner} from "./index";
-import {ACTION_TABLE, GOTO_TABLE, RULES} from "./utils/tables";
+import {ACTION_TABLE, GOTO_TABLE, RULES, ERRORS} from "./utils/tables";
 
 // (1) Seja a o primeiro símbolo de w$;
 // (2) while { /*Repita indefinidamente*/
@@ -26,6 +26,7 @@ async function  main(){
     let A
     let response = await scan.next()
     let token = response.value
+    let position
     done = response.done
     console.log("stack, entrada, s, a, beta, t, A, action")
     while (!done) {
@@ -41,10 +42,9 @@ async function  main(){
             // (5) empilha t na pilha;
             stack.push(t)
             // (6) seja a o próximo símbolo da entrada; volta pro while
-
-            // print({stack, entrada: token.lexema, s, a, beta, A , t, action: resultTable })
             response = await scan.next()
             token = response.value
+            position = response.value.position
         }
         else if(action == 'R'){
             // A->beta
@@ -62,24 +62,27 @@ async function  main(){
             const goto = GOTO_TABLE[t][A]
             stack.push(goto)
             // (11) imprima a produção A-> β ;
-            // print(rule)
         }
         else if(action == 'ACC'){
             //@todo e se aceitar antes de terminar de ler o código?
             console.log( 'aceito')
+            done = true
         }
-        else {
-            print({stack, entrada: token.lexema, s, a, beta, A , t, action: resultTable })
-            // @todo rotina
-            console.log( 'erro')
+        else if(action == "E"){
+            printError(action, s)
+            //@todo: recuperar a leitura e mostrar posicao erro
         }
 
     }
 }
 
 function print({stack, entrada, s, a, beta, t, A, action}){
-
     console.log(stack, entrada, s, a, beta, t, A, action)
+}
+
+function printError(action, s){
+    let productions = ERRORS[action+s]
+    console.log(`Erro sintático - espera-se uma das produções a seguir: `+ productions)
 }
 
 main()
