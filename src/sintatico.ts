@@ -44,24 +44,9 @@ async function  main(){
             // (6) seja a o próximo símbolo da entrada; volta pro while
             response = await scan.next()
             token = response.value
-            position = response.value.position
         }
         else if(action == 'R'){
-            // A->beta
-            const rule = RULES[t].split('->')
-            console.log(t, RULES[t])
-            A = rule[0]
-            beta = rule[1].split(' ')
-            // (8) desempilha | β | símbolos da pilha (a quantidade de símbolos de beta);
-            beta.forEach(()=>{
-                stack.pop()
-            })
-            // (9) faça o estado t agora ser o topo da pilha;
-            t = stack[stack.length - 1]
-            // (10) empilhe GOTO[t,A] na pilha;
-            const goto = GOTO_TABLE[t][A]
-            stack.push(goto)
-            // (11) imprima a produção A-> β ;
+            reduce(t,A,beta,stack)
         }
         else if(action == 'ACC'){
             //@todo e se aceitar antes de terminar de ler o código?
@@ -83,6 +68,24 @@ function print({stack, entrada, s, a, beta, t, A, action}){
 function printError(action, s){
     let productions = ERRORS[action+s]
     console.log(`Erro sintático - espera-se uma das produções a seguir: `+ productions)
+}
+
+function reduce(t,A,beta,stack){
+    // A->beta
+    const rule = RULES[t].split('->')
+    console.log(t, RULES[t])
+    A = rule[0]
+    beta = rule[1].split(' ')
+    // (8) desempilha | β | símbolos da pilha (a quantidade de símbolos de beta);
+    beta.forEach(()=>{
+        stack.pop()
+    })
+    // (9) faça o estado t agora ser o topo da pilha;
+    t = stack[stack.length - 1]
+    // (10) empilhe GOTO[t,A] na pilha;
+    const goto = GOTO_TABLE[t][A]
+    stack.push(goto)
+    // (11) imprima a produção A-> β ;
 }
 
 main()
