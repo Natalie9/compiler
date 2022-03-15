@@ -17,7 +17,7 @@ inicio
             escreva "B esta entre 2 e 4";
         fimse
     fimse
-    B<-B+1
+    B<-B+1;
     B<-B+2;
     B<-B+3;
     D<-B;
