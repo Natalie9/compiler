@@ -61,13 +61,7 @@ async function  main(){
 
     }
 }
-
-}
-function shift(){
-
-}
 function printError(action, s){
-    console.log(s)
     let productions = ERRORS[action+s]
     console.log(`Erro sintático - espera-se uma das produções a seguir: `+ productions)
 }
