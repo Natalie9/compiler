@@ -49,13 +49,14 @@ async function  main(){
             reduce(t,A,beta,stack)
         }
         else if(action == 'A'){
-            //@todo e se aceitar antes de terminar de ler o código?
             console.log( 'ACEITO')
             done = true
         }
         else if(action == "E"){
             printError(action, s)
-            done = true
+            response = await scan.next()
+            done = response.done
+            token = response.value
             //@todo: recuperar a leitura e mostrar posicao erro
         }
 
@@ -69,7 +70,6 @@ function printError(action, s){
 function reduce(t,A,beta,stack){
     // A->beta
     const rule = RULES[t].split('->')
-    console.log(t, RULES[t])
     A = rule[0]
     beta = rule[1].split(' ')
     // (8) desempilha | β | símbolos da pilha (a quantidade de símbolos de beta);
@@ -82,19 +82,6 @@ function reduce(t,A,beta,stack){
     const goto = GOTO_TABLE[t][A]
     stack.push(goto)
     // (11) imprima a produção A-> β ;
-}
-
-// main()
-
-export async function  teste(){
-    const path = 'Fonte.alg'
-    const scan = scanner(path)
-    let response = await scan.next()
-    let done = false
-    while (!done){
-        response = await  scan.next()
-        console.log(response.value)
-        done = response.done
-    }
+    console.log(t, RULES[t])
 }
 main()
