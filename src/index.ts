@@ -21,7 +21,7 @@ import * as path from 'path'
 import {IToken} from "./models/Token";
 
 
-export async function* scanner(pathName: string) {
+export async function* scanner(pathName: string, addChar='') {
     const text = await readTextFile(path.join(__dirname, pathName))
 
     const textLines = text.split('\n')
@@ -31,9 +31,18 @@ export async function* scanner(pathName: string) {
     for (let line = 0; line < textLines.length; line++) {
         let lineOfText = textLines[line]
 
-        const charactersOfLine = lineOfText.split('')
+        let charactersOfLine = lineOfText.split('')
 
         for (let column = 0; column < charactersOfLine.length; column++) {
+            if(addChar) {
+                const restOfLine = charactersOfLine.slice(column)
+                console.log({charactersOfLine, column, restOfLine})
+                const newLine = [addChar, ...restOfLine]
+                charactersOfLine = newLine
+                column = 0
+                console.log({charactersOfLine, column, restOfLine})
+                continue
+            }
             let character: string = charactersOfLine[column]
 
             //para reconhecer mas n retornar o comentario
