@@ -28,13 +28,12 @@ async function  main(){
     let token = response.value
     let position
     done = response.done
-    console.log("stack, entrada, s, a, beta, t, A, action")
     while (!done) {
         const topOfStack = stack[stack.length - 1]
         // (3) seja s o estado no topo da pilha;
         const s = topOfStack
         let a = token.classe.toLowerCase()
-        console.log({s, a})
+        // console.log({s, a})
         const resultTable = ACTION_TABLE[s][a]
         let action = resultTable.toString().slice(0, 1)
         let t = resultTable.slice(1, action.length + 2)
@@ -43,29 +42,32 @@ async function  main(){
             stack.push(t)
             // (6) seja a o próximo símbolo da entrada; volta pro while
             response = await scan.next()
+            done = response.done
             token = response.value
         }
         else if(action == 'R'){
             reduce(t,A,beta,stack)
         }
-        else if(action == 'ACC'){
+        else if(action == 'A'){
             //@todo e se aceitar antes de terminar de ler o código?
-            console.log( 'aceito')
+            console.log( 'ACEITO')
             done = true
         }
         else if(action == "E"){
             printError(action, s)
+            done = true
             //@todo: recuperar a leitura e mostrar posicao erro
         }
 
     }
 }
 
-function print({stack, entrada, s, a, beta, t, A, action}){
-    console.log(stack, entrada, s, a, beta, t, A, action)
 }
+function shift(){
 
+}
 function printError(action, s){
+    console.log(s)
     let productions = ERRORS[action+s]
     console.log(`Erro sintático - espera-se uma das produções a seguir: `+ productions)
 }
@@ -88,4 +90,17 @@ function reduce(t,A,beta,stack){
     // (11) imprima a produção A-> β ;
 }
 
+// main()
+
+export async function  teste(){
+    const path = 'Fonte.alg'
+    const scan = scanner(path)
+    let response = await scan.next()
+    let done = false
+    while (!done){
+        response = await  scan.next()
+        console.log(response.value)
+        done = response.done
+    }
+}
 main()

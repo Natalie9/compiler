@@ -25,7 +25,7 @@ export const ACTION_TABLE =
         repita: 'E0',
         fimrepita: 'E0',
         fim: 'E0',
-        'EOF': 'E0'
+        'eof': 'E0'
 },
     '1': {
     state: '1',
@@ -52,7 +52,7 @@ export const ACTION_TABLE =
         repita: 'E1',
         fimrepita: 'E1',
         fim: 'E1',
-        'EOF': 'ACC'
+        'eof': 'ACC'
 },
     '2': {
     state: '2',
@@ -79,7 +79,7 @@ export const ACTION_TABLE =
         repita: 'E2',
         fimrepita: 'E2',
         fim: 'E2',
-        'EOF': 'E2'
+        'eof': 'E2'
 },
     '3': {
     state: '3',
@@ -106,7 +106,7 @@ export const ACTION_TABLE =
         repita: 'S17',
         fimrepita: 'E3',
         fim: 'S10',
-        'EOF': 'E3'
+        'eof': 'E3'
 },
     '4': {
     state: '4',
@@ -133,7 +133,7 @@ export const ACTION_TABLE =
         repita: 'E4',
         fimrepita: 'E4',
         fim: 'E4',
-        'EOF': 'E4'
+        'eof': 'E4'
 },
     '5': {
     state: '5',
@@ -160,7 +160,7 @@ export const ACTION_TABLE =
         repita: 'E5',
         fimrepita: 'E5',
         fim: 'E5',
-        'EOF': 'R2'
+        'eof': 'R2'
 },
     '6': {
     state: '6',
@@ -187,7 +187,7 @@ export const ACTION_TABLE =
         repita: 'S17',
         fimrepita: 'E6',
         fim: 'S10',
-        'EOF': 'E6'
+        'eof': 'E6'
 },
     '7': {
     state: '7',
@@ -214,7 +214,7 @@ export const ACTION_TABLE =
         repita: 'S17',
         fimrepita: 'E7',
         fim: 'S10',
-        'EOF': 'E7'
+        'eof': 'E7'
 },
     '8': {
     state: '8',
@@ -241,7 +241,7 @@ export const ACTION_TABLE =
         repita: 'S17',
         fimrepita: 'E8',
         fim: 'S10',
-        'EOF': 'E8'
+        'eof': 'E8'
 },
     '9': {
     state: '9',
@@ -268,7 +268,7 @@ export const ACTION_TABLE =
         repita: 'S17',
         fimrepita: 'E9',
         fim: 'S10',
-        'EOF': 'E9'
+        'eof': 'E9'
 },
     '10': {
     state: '10',
@@ -295,7 +295,7 @@ export const ACTION_TABLE =
         repita: 'E10',
         fimrepita: 'E10',
         fim: 'E10',
-        'EOF': 'R38'
+        'eof': 'R38'
 },
     '11': {
     state: '11',
@@ -322,7 +322,7 @@ export const ACTION_TABLE =
         repita: 'E11',
         fimrepita: 'E11',
         fim: 'E11',
-        'EOF': 'E11'
+        'eof': 'E11'
 },
     '12': {
     state: '12',
@@ -349,7 +349,7 @@ export const ACTION_TABLE =
         repita: 'E12',
         fimrepita: 'E12',
         fim: 'E12',
-        'EOF': 'E12'
+        'eof': 'E12'
 },
     '13': {
     state: '13',
@@ -376,7 +376,7 @@ export const ACTION_TABLE =
         repita: 'E13',
         fimrepita: 'E13',
         fim: 'E13',
-        'EOF': 'E13'
+        'eof': 'E13'
 },
     '14': {
     state: '14',
@@ -403,7 +403,7 @@ export const ACTION_TABLE =
         repita: 'E14',
         fimrepita: 'E14',
         fim: 'E14',
-        'EOF': 'E14'
+        'eof': 'E14'
 },
     '15': {
     state: '15',
@@ -430,7 +430,7 @@ export const ACTION_TABLE =
         repita: 'E15',
         fimrepita: 'S44',
         fim: 'E15',
-        'EOF': 'E15'
+        'eof': 'E15'
 },
     '16': {
     state: '16',
@@ -457,7 +457,7 @@ export const ACTION_TABLE =
         repita: 'E16',
         fimrepita: 'E16',
         fim: 'E16',
-        'EOF': 'E16'
+        'eof': 'E16'
 },
     '17': {
     state: '17',
@@ -484,7 +484,7 @@ export const ACTION_TABLE =
         repita: 'E17',
         fimrepita: 'E17',
         fim: 'E17',
-        'EOF': 'E17'
+        'eof': 'E17'
 },
     '18': {
     state: '18',
@@ -511,7 +511,7 @@ export const ACTION_TABLE =
         repita: 'R3',
         fimrepita: 'E18',
         fim: 'R3',
-        'EOF': 'E18'
+        'eof': 'E18'
 },
     '19': {
     state: '19',
@@ -538,7 +538,7 @@ export const ACTION_TABLE =
         repita: 'E19',
         fimrepita: 'E19',
         fim: 'E19',
-        'EOF': 'E19'
+        'eof': 'E19'
 },
     '20': {
     state: '20',
@@ -565,7 +565,7 @@ export const ACTION_TABLE =
         repita: 'E20',
         fimrepita: 'E20',
         fim: 'E20',
-        'EOF': 'E20'
+        'eof': 'E20'
 },
     '21': {
     state: '21',
@@ -592,7 +592,7 @@ export const ACTION_TABLE =
         repita: 'E21',
         fimrepita: 'E21',
         fim: 'E21',
-        'EOF': 'E21'
+        'eof': 'E21'
 },
     '22': {
     state: '22',
@@ -619,7 +619,7 @@ export const ACTION_TABLE =
         repita: 'E22',
         fimrepita: 'E22',
         fim: 'E22',
-        'EOF': 'E22'
+        'eof': 'E22'
 },
     '23': {
     state: '23',
@@ -646,7 +646,7 @@ export const ACTION_TABLE =
         repita: 'E23',
         fimrepita: 'E23',
         fim: 'E23',
-        'EOF': 'E23'
+        'eof': 'E23'
 },
     '24': {
     state: '24',
@@ -673,7 +673,7 @@ export const ACTION_TABLE =
         repita: 'E24',
         fimrepita: 'E24',
         fim: 'E24',
-        'EOF': 'E24'
+        'eof': 'E24'
 },
     '25': {
     state: '25',
@@ -700,7 +700,7 @@ export const ACTION_TABLE =
         repita: 'E25',
         fimrepita: 'E25',
         fim: 'E25',
-        'EOF': 'R11'
+        'eof': 'R11'
 },
     '26': {
     state: '26',
@@ -727,7 +727,7 @@ export const ACTION_TABLE =
         repita: 'E26',
         fimrepita: 'E26',
         fim: 'E26',
-        'EOF': 'R17'
+        'eof': 'R17'
 },
     '27': {
     state: '27',
@@ -754,7 +754,7 @@ export const ACTION_TABLE =
         repita: 'E27',
         fimrepita: 'E27',
         fim: 'E27',
-        'EOF': 'R23'
+        'eof': 'R23'
 },
     '28': {
     state: '28',
@@ -781,7 +781,7 @@ export const ACTION_TABLE =
         repita: 'E28',
         fimrepita: 'E28',
         fim: 'E28',
-        'EOF': 'R31'
+        'eof': 'R31'
 },
     '29': {
     state: '29',
@@ -808,7 +808,7 @@ export const ACTION_TABLE =
         repita: 'E29',
         fimrepita: 'E29',
         fim: 'E29',
-        'EOF': 'E29'
+        'eof': 'E29'
 },
     '30': {
     state: '30',
@@ -835,7 +835,7 @@ export const ACTION_TABLE =
         repita: 'E30',
         fimrepita: 'E30',
         fim: 'E30',
-        'EOF': 'E30'
+        'eof': 'E30'
 },
     '31': {
     state: '31',
@@ -862,7 +862,7 @@ export const ACTION_TABLE =
         repita: 'E31',
         fimrepita: 'E31',
         fim: 'E31',
-        'EOF': 'E31'
+        'eof': 'E31'
 },
     '32': {
     state: '32',
@@ -889,7 +889,7 @@ export const ACTION_TABLE =
         repita: 'E32',
         fimrepita: 'E32',
         fim: 'E32',
-        'EOF': 'E32'
+        'eof': 'E32'
 },
     '33': {
     state: '33',
@@ -916,7 +916,7 @@ export const ACTION_TABLE =
         repita: 'E33',
         fimrepita: 'E33',
         fim: 'E33',
-        'EOF': 'E33'
+        'eof': 'E33'
 },
     '34': {
     state: '34',
@@ -943,7 +943,7 @@ export const ACTION_TABLE =
         repita: 'E34',
         fimrepita: 'E34',
         fim: 'E34',
-        'EOF': 'E34'
+        'eof': 'E34'
 },
     '35': {
     state: '35',
@@ -970,7 +970,7 @@ export const ACTION_TABLE =
         repita: 'R24',
         fimrepita: 'R24',
         fim: 'R24',
-        'EOF': 'E35'
+        'eof': 'E35'
 },
     '36': {
     state: '36',
@@ -997,7 +997,7 @@ export const ACTION_TABLE =
         repita: 'E36',
         fimrepita: 'E36',
         fim: 'E36',
-        'EOF': 'E36'
+        'eof': 'E36'
 },
     '37': {
     state: '37',
@@ -1024,7 +1024,7 @@ export const ACTION_TABLE =
         repita: 'E37',
         fimrepita: 'E37',
         fim: 'E37',
-        'EOF': 'E37'
+        'eof': 'E37'
 },
     '38': {
     state: '38',
@@ -1051,7 +1051,7 @@ export const ACTION_TABLE =
         repita: 'E38',
         fimrepita: 'E38',
         fim: 'E38',
-        'EOF': 'E38'
+        'eof': 'E38'
 },
     '39': {
     state: '39',
@@ -1078,7 +1078,7 @@ export const ACTION_TABLE =
         repita: 'R30',
         fimrepita: 'R30',
         fim: 'R30',
-        'EOF': 'E39'
+        'eof': 'E39'
 },
     '40': {
     state: '40',
@@ -1105,7 +1105,7 @@ export const ACTION_TABLE =
         repita: 'E40',
         fimrepita: 'E40',
         fim: 'R32',
-        'EOF': 'E40'
+        'eof': 'E40'
 },
     '41': {
     state: '41',
@@ -1132,7 +1132,7 @@ export const ACTION_TABLE =
         repita: 'E41',
         fimrepita: 'S44',
         fim: 'E41',
-        'EOF': 'E41'
+        'eof': 'E41'
 },
     '42': {
     state: '42',
@@ -1159,7 +1159,7 @@ export const ACTION_TABLE =
         repita: 'E42',
         fimrepita: 'S44',
         fim: 'E42',
-        'EOF': 'E42'
+        'eof': 'E42'
 },
     '43': {
     state: '43',
@@ -1186,7 +1186,7 @@ export const ACTION_TABLE =
         repita: 'E43',
         fimrepita: 'S44',
         fim: 'E43',
-        'EOF': 'E43'
+        'eof': 'E43'
 },
     '44': {
     state: '44',
@@ -1213,7 +1213,7 @@ export const ACTION_TABLE =
         repita: 'R37',
         fimrepita: 'E44',
         fim: 'R37',
-        'EOF': 'E44'
+        'eof': 'E44'
 },
     '45': {
     state: '45',
@@ -1240,7 +1240,7 @@ export const ACTION_TABLE =
         repita: 'E45',
         fimrepita: 'E45',
         fim: 'E45',
-        'EOF': 'E45'
+        'eof': 'E45'
 },
     '46': {
     state: '46',
@@ -1267,7 +1267,7 @@ export const ACTION_TABLE =
         repita: 'E46',
         fimrepita: 'E46',
         fim: 'E46',
-        'EOF': 'E46'
+        'eof': 'E46'
 },
     '47': {
     state: '47',
@@ -1294,7 +1294,7 @@ export const ACTION_TABLE =
         repita: 'R4',
         fimrepita: 'E47',
         fim: 'R4',
-        'EOF': 'E47'
+        'eof': 'E47'
 },
     '48': {
     state: '48',
@@ -1321,7 +1321,7 @@ export const ACTION_TABLE =
         repita: 'R5',
         fimrepita: 'E48',
         fim: 'R5',
-        'EOF': 'E48'
+        'eof': 'E48'
 },
     '49': {
     state: '49',
@@ -1348,7 +1348,7 @@ export const ACTION_TABLE =
         repita: 'E49',
         fimrepita: 'E49',
         fim: 'E49',
-        'EOF': 'E49'
+        'eof': 'E49'
 },
     '50': {
     state: '50',
@@ -1375,7 +1375,7 @@ export const ACTION_TABLE =
         repita: 'E50',
         fimrepita: 'E50',
         fim: 'E50',
-        'EOF': 'E50'
+        'eof': 'E50'
 },
     '51': {
     state: '51',
@@ -1402,7 +1402,7 @@ export const ACTION_TABLE =
         repita: 'R12',
         fimrepita: 'R12',
         fim: 'R12',
-        'EOF': 'E51'
+        'eof': 'E51'
 },
     '52': {
     state: '52',
@@ -1429,7 +1429,7 @@ export const ACTION_TABLE =
         repita: 'R13',
         fimrepita: 'R13',
         fim: 'R13',
-        'EOF': 'E52'
+        'eof': 'E52'
 },
     '53': {
     state: '53',
@@ -1456,7 +1456,7 @@ export const ACTION_TABLE =
         repita: 'E53',
         fimrepita: 'E53',
         fim: 'E53',
-        'EOF': 'E53'
+        'eof': 'E53'
 },
     '54': {
     state: '54',
@@ -1483,7 +1483,7 @@ export const ACTION_TABLE =
         repita: 'E54',
         fimrepita: 'E54',
         fim: 'E54',
-        'EOF': 'E54'
+        'eof': 'E54'
 },
     '55': {
     state: '55',
@@ -1510,7 +1510,7 @@ export const ACTION_TABLE =
         repita: 'E55',
         fimrepita: 'E55',
         fim: 'E55',
-        'EOF': 'E55'
+        'eof': 'E55'
 },
     '56': {
     state: '56',
@@ -1537,7 +1537,7 @@ export const ACTION_TABLE =
         repita: 'E56',
         fimrepita: 'E56',
         fim: 'E56',
-        'EOF': 'E56'
+        'eof': 'E56'
 },
     '57': {
     state: '57',
@@ -1564,7 +1564,7 @@ export const ACTION_TABLE =
         repita: 'R27',
         fimrepita: 'R27',
         fim: 'R27',
-        'EOF': 'E57'
+        'eof': 'E57'
 },
     '58': {
     state: '58',
@@ -1591,7 +1591,7 @@ export const ACTION_TABLE =
         repita: 'R28',
         fimrepita: 'R28',
         fim: 'R28',
-        'EOF': 'E58'
+        'eof': 'E58'
 },
     '59': {
     state: '59',
@@ -1618,7 +1618,7 @@ export const ACTION_TABLE =
         repita: 'R29',
         fimrepita: 'R29',
         fim: 'R29',
-        'EOF': 'E59'
+        'eof': 'E59'
 },
     '60': {
     state: '60',
@@ -1645,7 +1645,7 @@ export const ACTION_TABLE =
         repita: 'R34',
         fimrepita: 'E60',
         fim: 'R34',
-        'EOF': 'E60'
+        'eof': 'E60'
 },
     '61': {
     state: '61',
@@ -1672,7 +1672,7 @@ export const ACTION_TABLE =
         repita: 'R35',
         fimrepita: 'E61',
         fim: 'R35',
-        'EOF': 'E61'
+        'eof': 'E61'
 },
     '62': {
     state: '62',
@@ -1699,7 +1699,7 @@ export const ACTION_TABLE =
         repita: 'R36',
         fimrepita: 'E62',
         fim: 'R36',
-        'EOF': 'E62'
+        'eof': 'E62'
 },
     '63': {
     state: '63',
@@ -1726,7 +1726,7 @@ export const ACTION_TABLE =
         repita: 'E63',
         fimrepita: 'E63',
         fim: 'E63',
-        'EOF': 'E63'
+        'eof': 'E63'
 },
     '64': {
     state: '64',
@@ -1753,7 +1753,7 @@ export const ACTION_TABLE =
         repita: 'E64',
         fimrepita: 'E64',
         fim: 'E64',
-        'EOF': 'E64'
+        'eof': 'E64'
 },
     '65': {
     state: '65',
@@ -1780,7 +1780,7 @@ export const ACTION_TABLE =
         repita: 'E65',
         fimrepita: 'E65',
         fim: 'E65',
-        'EOF': 'E65'
+        'eof': 'E65'
 },
     '66': {
     state: '66',
@@ -1807,7 +1807,7 @@ export const ACTION_TABLE =
         repita: 'E66',
         fimrepita: 'E66',
         fim: 'E66',
-        'EOF': 'E66'
+        'eof': 'E66'
 },
     '67': {
     state: '67',
@@ -1834,7 +1834,7 @@ export const ACTION_TABLE =
         repita: 'R18',
         fimrepita: 'R18',
         fim: 'R18',
-        'EOF': 'E67'
+        'eof': 'E67'
 },
     '68': {
     state: '68',
@@ -1861,7 +1861,7 @@ export const ACTION_TABLE =
         repita: 'E68',
         fimrepita: 'E68',
         fim: 'E68',
-        'EOF': 'E68'
+        'eof': 'E68'
 },
     '69': {
     state: '69',
@@ -1888,7 +1888,7 @@ export const ACTION_TABLE =
         repita: 'E69',
         fimrepita: 'E69',
         fim: 'E69',
-        'EOF': 'E69'
+        'eof': 'E69'
 },
     '70': {
     state: '70',
@@ -1915,7 +1915,7 @@ export const ACTION_TABLE =
         repita: 'E70',
         fimrepita: 'E70',
         fim: 'E70',
-        'EOF': 'E70'
+        'eof': 'E70'
 },
     '71': {
     state: '71',
@@ -1942,7 +1942,7 @@ export const ACTION_TABLE =
         repita: 'E71',
         fimrepita: 'R33',
         fim: 'E71',
-        'EOF': 'E71'
+        'eof': 'E71'
 },
     '72': {
     state: '72',
@@ -1969,7 +1969,7 @@ export const ACTION_TABLE =
         repita: 'E72',
         fimrepita: 'E72',
         fim: 'E72',
-        'EOF': 'E72'
+        'eof': 'E72'
 },
     '73': {
     state: '73',
@@ -1996,7 +1996,7 @@ export const ACTION_TABLE =
         repita: 'E73',
         fimrepita: 'E73',
         fim: 'E73',
-        'EOF': 'E73'
+        'eof': 'E73'
 },
     '74': {
     state: '74',
@@ -2023,7 +2023,7 @@ export const ACTION_TABLE =
         repita: 'E74',
         fimrepita: 'E74',
         fim: 'E74',
-        'EOF': 'E74'
+        'eof': 'E74'
 }
 }
 
@@ -3569,12 +3569,12 @@ export const ERRORS = {
     'E2': 'varinicio',
     'E3': 'id, leia, escreva,	se,	repita,	fim',
     'E4': 'varfim, inteiro, real,	literal',
-    'E5': 'EOF',
+    'E5': 'eof',
     'E6': 'id, leia, escreva,	se,	repita,	fim',
     'E7': 'id, leia, escreva,	se,	repita,	fim',
     'E8': 'id, leia, escreva,	se,	repita,	fim',
     'E9': 'id, leia, escreva,	se,	repita,	fim',
-    'E10': 'id, leia, escreva,	se,	EOF',
+    'E10': 'id, leia, escreva,	se,	eof',
     'E11': 'id',
     'E12': 'id	lit	num',
     'E13': 'rcb',
@@ -3589,10 +3589,10 @@ export const ERRORS = {
     'E22': 'id',
     'E23': 'id',
     'E24': 'id',
-    'E25': 'EOF',
-    'E26': 'EOF',
-    'E27': 'EOF',
-    'E28': 'EOF',
+    'E25': 'eof',
+    'E26': 'eof',
+    'E27': 'eof',
+    'E28': 'eof',
     'E29': 'pt_v',
     'E30': 'pt_v',
     'E31': 'pt_v',

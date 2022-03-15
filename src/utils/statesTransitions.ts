@@ -100,7 +100,7 @@ export const states: any = {
         'Q5': {classe: 'NUM', tipo: 'real'},
         'Q8': {classe: 'LIT', tipo: 'literal'},
         'Q9': {classe: 'ID', tipo: 'NULO'},
-        'Q10': {classe: 'EOF', tipo: 'NULO', lexema: 'EOF'},
+        'Q10': {classe: 'eof', tipo: 'NULO', lexema: 'eof'},
         'Q11': {classe: 'OPR', tipo: 'NULO'},
         'Q12': {classe: 'OPR', tipo: 'NULO'},
         'Q13': {classe: 'OPR', tipo: 'NULO'},

@@ -45,6 +45,9 @@ export async function* scanner(pathName: string) {
 
             //recebe o proximo estado e qual o tipo que aquela entrada tem
             let nextState = readValueReturnNewState(character, state)
+            if(nextState == 'Q0'){
+                continue
+            }
             //se não tiver proximo estado chegou ao fim do automato
             if (!nextState) {
                 let position = [line, column]
@@ -56,13 +59,12 @@ export async function* scanner(pathName: string) {
             } else {
                 //se tiver proximo estado, passa a ser o estado atual
                 state = nextState
-            }
-            //se o estado atual for 0 é pq n andou, ent a entrada não forma lexema
-            if (state != 'Q0')
                 lexema += character
+            }
         }
 
     }
+    yield formatToken({lexema, state, position : 0})
     let position = [0, 0]
     const stateEOF = 'Q10'
     const tokenEOF = {...states['FINAL'][stateEOF]}
