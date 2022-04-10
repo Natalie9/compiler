@@ -3642,11 +3642,13 @@ export const ERRORS = {
 }
 
 export const semanticRules = {
-    '1' : {rule:'P->P', semantic: ['-']},
-    '2' : {rule: 'P->inicio V A', semantic: ['-']},
-    '3' : {rule: 'V->varincio LV', semantic: ['-']},
+    '1' : {rule:'P->P', semantic: ()=>{}},
+    '2' : {rule: 'P->inicio V A', semantic: ()=>{}},
+    '3' : {rule: 'V->varincio LV', semantic: ()=>{}},
     '4' : {rule: 'LV->D LV', semantic: ()=>{}},
-    '5' : {rule: 'LV->varfim pt_v', semantic: ['printf("\n\n\n"']},
+    '5' : {rule: 'LV->varfim pt_v', semantic: ()=>{
+        console.log('printf("\n\n\n"') //@todo imprimir no arquivo
+        }},
     '6' : {rule: 'D->TIPO L pt_v', semantic:  ({ token, stackSemantic})=>{
             if(token.tipo){
                 console.log(token.lexema) // @todo imprimir no arquivo
@@ -3659,27 +3661,34 @@ export const semanticRules = {
         if(token.tipo){
             const L = token
             const obj = token.lexema
+            // @todo ISA
         }
         else {
             console.log("variável não declarada") //@todo monitorar erros pra n fazer arquivo e adicionar linha e coluna
         }
 }},
     '8' : {rule: 'TIPO->inteiro', semantic: ({ token, stackSemantic})=>{
+            // 'TIPO.tipo<-inteiro.tipo', 'Imprimir ( TIPO.tipo)''
             const topStack = stackSemantic.pop()
             const TIPO = {tipo: topStack.tipo}
             stackSemantic.push(TIPO)
             console.log(TIPO.tipo) //@TODO imprimir no arquivo
-            // 'TIPO.tipo<-inteiro.tipo', 'Imprimir ( TIPO.tipo)''
         }},
-    '9' : {rule: 'TIPO->real', semantic: ['TIPO.tipo<-real.tipo', 'Imprimir ( TIPO.tipo)']},
+    '9' : {rule: 'TIPO->real',  semantic: ({ token, stackSemantic})=>{
+    // 'TIPO.tipo<-real.tipo', 'Imprimir ( TIPO.tipo)''
+    const topStack = stackSemantic.pop()
+    const TIPO = {tipo: topStack.tipo}
+    stackSemantic.push(TIPO)
+    console.log(TIPO.tipo) //@TODO imprimir no arquivo
+}},
     '10' : {rule: 'TIPO->literal', semantic: ({ token, stackSemantic})=>{
-        const topStack = stackSemantic.pop()
+            // 'TIPO.tipo<-literal.tipo','Imprimir ( TIPO.tipo);'
+            const topStack = stackSemantic.pop()
             const TIPO = {tipo: topStack.tipo}
             stackSemantic.push(TIPO)
             console.log(TIPO.tipo) //@TODO imprimir no arquivo
-        // 'TIPO.tipo<-literal.tipo','Imprimir ( TIPO.tipo);'
         }},
-    '11' : {rule: 'A->ES A', semantic: ['-']},
+    '11' : {rule: 'A->ES A', semantic: ()=>{}},
     '12' : {rule: 'ES->leia id pt_v', semantic: [ ]},
     '13' : {rule: 'ES->escreva ARG pt_v', semantic: [ ]},
     '14' : {rule: 'ARG->lit', semantic: [ ]},
