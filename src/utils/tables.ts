@@ -3640,3 +3640,82 @@ export const ERRORS = {
     'E73': 'id, leia, escreva, se, fimse',
     'E74': 'fc_p'
 }
+
+export const semanticRules = {
+    '1' : {rule:'P->P', semantic: ['-']},
+    '2' : {rule: 'P->inicio V A', semantic: ['-']},
+    '3' : {rule: 'V->varincio LV', semantic: ['-']},
+    '4' : {rule: 'LV->D LV', semantic: ()=>{}},
+    '5' : {rule: 'LV->varfim pt_v', semantic: ['printf("\n\n\n"']},
+    '6' : {rule: 'D->TIPO L pt_v', semantic:  ({ token, stackSemantic})=>{
+            if(token.tipo){
+                console.log(token.lexema) // @todo imprimir no arquivo
+            }
+            else {
+                console.log("variável não declarada") //@todo monitorar erros pra n fazer arquivo e adicionar linha e coluna
+            }
+        }},
+    '7' : {rule: 'L->id', semantic:  ({ token, stackSemantic})=>{
+        if(token.tipo){
+            const L = token
+            const obj = token.lexema
+        }
+        else {
+            console.log("variável não declarada") //@todo monitorar erros pra n fazer arquivo e adicionar linha e coluna
+        }
+}},
+    '8' : {rule: 'TIPO->inteiro', semantic: ({ token, stackSemantic})=>{
+            const topStack = stackSemantic.pop()
+            const TIPO = {tipo: topStack.tipo}
+            stackSemantic.push(TIPO)
+            console.log(TIPO.tipo) //@TODO imprimir no arquivo
+            // 'TIPO.tipo<-inteiro.tipo', 'Imprimir ( TIPO.tipo)''
+        }},
+    '9' : {rule: 'TIPO->real', semantic: ['TIPO.tipo<-real.tipo', 'Imprimir ( TIPO.tipo)']},
+    '10' : {rule: 'TIPO->literal', semantic: ({ token, stackSemantic})=>{
+        const topStack = stackSemantic.pop()
+            const TIPO = {tipo: topStack.tipo}
+            stackSemantic.push(TIPO)
+            console.log(TIPO.tipo) //@TODO imprimir no arquivo
+        // 'TIPO.tipo<-literal.tipo','Imprimir ( TIPO.tipo);'
+        }},
+    '11' : {rule: 'A->ES A', semantic: ['-']},
+    '12' : {rule: 'ES->leia id pt_v', semantic: [ ]},
+    '13' : {rule: 'ES->escreva ARG pt_v', semantic: [ ]},
+    '14' : {rule: 'ARG->lit', semantic: [ ]},
+    '15' : {rule: 'ARG->num', semantic: [ ]},
+    '16' : {rule: 'ARG->id', semantic: [ ]},
+    '17' : {rule: 'A->CMD A', semantic: [ ]},
+    '18' : {rule: 'CMD->id rcb LD pt_v', semantic: [ ]},
+    '19' : {rule: 'LD->OPRD opm OPRD', semantic: [ ]},
+    '20' : {rule: 'LD->OPRD', semantic: ()=>{}},
+    '21' : {rule: 'OPRD->id', semantic:
+            (token, tree)=> {
+        console.log('teste')
+                // if(token.id){ //@todo verificar se o identificador está declarado, se estiver na tabela de simbolos vale
+                //     tree['OPRD'.atributos = that.id.atributos
+                // }
+                // else {
+                //     return `Erro: Variável não declarada”${that.id}”`//@todo, linha e coluna onde ocorreu o erro no fonte. `
+                // }
+
+            }
+},
+    '22' : {rule: 'OPRD->num', semantic: [ ]},
+    '23' : {rule: 'A->COND A', semantic: [ ]},
+    '24' : {rule: 'COND->CAB CP', semantic: [ ]},
+    '25' : {rule: 'CAB->se ab_p EXP_R fc_p entao', semantic: [ ]},
+    '26' : {rule: 'EXP_R->OPRD opr OPRD', semantic: [ ]},
+    '27' : {rule: 'CP->ES CP', semantic: [ ]},
+    '28' : {rule: 'CP->CMD CP', semantic: [ ]},
+    '29' : {rule: 'CP->COND CP', semantic: [ ]},
+    '30' : {rule: 'CP->fimse', semantic: [ ]},
+    '31' : {rule: 'A->R A', semantic: [ ]},
+    '32' : {rule: 'R->CABR CPR', semantic: [ ]},
+    '33' : {rule: 'CABR->repita ab_p EXP_R fc_p', semantic: [ ]},
+    '34' : {rule: 'CPR->ES CPR', semantic: [ ]},
+    '35' : {rule: 'CPR->CMD CPR', semantic: [ ]},
+    '36' : {rule: 'CPR->COND CPR', semantic: [ ]},
+    '37' : {rule: 'CPR->fimrepita', semantic: [ ]},
+    '38' : {rule: 'A->fim', semantic: [ ]}
+}
