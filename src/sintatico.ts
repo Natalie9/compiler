@@ -15,13 +15,14 @@ import {ACTION_TABLE, GOTO_TABLE, RULES, ERRORS, semanticRules} from "./utils/ta
 //     (12) } else if (ACTION [s,a] = accept ) pare; /* a análise terminou*/
 // (13) else invocar uma rotina de recuperação do erro;
 
+let textFinal = ''
 
 async function main() {
     const args = process.argv;
     const scan = scanner(args[2])
     const initialState = '0'
     let stack = [initialState]
-    let stackSemantic = []
+    let semantic = {}
     let done
     let response = await scan.next()
 
@@ -42,14 +43,14 @@ async function main() {
             // (5) empilha t na pilha;
             stack.push(t)
             // semnatico: empilha token com seus atributos
-            stackSemantic.push(token)
+            semantic[token.classe] = token
             // (6) seja a o próximo símbolo da entrada; volta pro while
             response = await scan.next()
             done = response.done
             token = response.value
         } else if (action == 'R') {
             reduce(t, stack)
-            handleSemantic({t, token, stackSemantic})
+            handleSemantic({t, semantic})
         } else if (action == 'A') {
             console.log('ACEITO')
             done = true
@@ -61,10 +62,15 @@ async function main() {
         }
 
     }
+    console.log(textFinal)
 }
-function handleSemantic({t, token, stackSemantic}){
-    semanticRules[t]?.semantic({t, token, stackSemantic})
+
+function handleSemantic({t, semantic}) {
+    textFinal += semanticRules[t]?.semantic(semantic) || ''
+    // textFinal += ' '
+
 }
+
 function printError(action, s) {
     let productions = ERRORS[action + s]
     console.log(`Erro sintático - espera-se uma das produções a seguir: ` + productions)
