@@ -1,6 +1,6 @@
 import {scanner} from "./index";
 import {ACTION_TABLE, GOTO_TABLE, RULES, ERRORS, semanticRules} from "./utils/tables";
-const tree = {}
+
 // (1) Seja a o primeiro símbolo de w$;
 // (2) while { /*Repita indefinidamente*/
 //     (3) seja s o estado no topo da pilha;

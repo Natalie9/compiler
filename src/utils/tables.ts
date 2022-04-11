@@ -3522,6 +3522,9 @@ export const GOTO_TABLE =
         }
     }
 
+import {symbolTable} from "./Alphabet";
+
+
 export const RULES = {
     '1' : 'P->P',
     '2' : 'P->inicio V A',
@@ -3650,6 +3653,7 @@ export const semanticRules = {
         console.log('printf("\n\n\n"') //@todo imprimir no arquivo
         }},
     '6' : {rule: 'D->TIPO L pt_v', semantic:  ({ token, stackSemantic})=>{
+        console.log(token, stackSemantic)
             if(token.tipo){
                 console.log(token.lexema) // @todo imprimir no arquivo
             }
@@ -3658,9 +3662,14 @@ export const semanticRules = {
             }
         }},
     '7' : {rule: 'L->id', semantic:  ({ token, stackSemantic})=>{
+
         if(token.tipo){
-            const L = token
-            const obj = token.lexema
+            const TIPO = stackSemantic[stackSemantic.length - 2]
+            let id = stackSemantic.pop()
+            id.tipo = TIPO.tipo
+            symbolTable[id.lexema] = id
+            stackSemantic.push(id)
+            console.log(id.lexema)
             // @todo ISA
         }
         else {
