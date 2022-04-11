@@ -3663,16 +3663,16 @@ export const semanticRules = {
     },
     '5': {
         rule: 'LV->varfim pt_v', semantic: () => {
-            return('\n\n\n') //@todo imprimir no arquivo
+            return('\n\n\n')
         }
     },
     '6': {
         rule: 'D->TIPO L pt_v', semantic: (semantic) => {
             //@todo ISA mudei um pouco a regra
-            //valida se o tipo e a variavel são os mesmos
+            //valida se o tipo e a variavel são os mesmos, e valida que o ID (L) tem um tipo
             if (semantic['TIPO'].tipo == semantic['L'].tipo){
                 //imprime ponto e virgula e quebra a linha
-                return semantic['PT_V'].lexema + "\n" // @todo imprimir no arquivo
+                return semantic['PT_V'].lexema + "\n"
             }
             else {
                 console.log('Tipos inconsistentes') // @todo validar erro
@@ -3692,7 +3692,7 @@ export const semanticRules = {
                 const L = ID
                 //adiciona L com os atributos de ID na pilha
                 semantic['L'] = L
-                return(ID.lexema) //@todo imprimir no arquivo
+                return ID.lexema
             } else {
                 console.log("variável não declarada") //@todo monitorar erros pra n fazer arquivo e adicionar linha e coluna
             }
@@ -3704,7 +3704,7 @@ export const semanticRules = {
             // 'TIPO.tipo<-inteiro.tipo', 'Imprimir ( TIPO.tipo)''
             const TIPO = {tipo: semantic['inteiro'].tipo}
             semantic['TIPO'] = TIPO
-            return 'int ' //@TODO imprimir no arquivo @question tem que converter pros tipos de C?
+            return 'int '
         }
     },
     '9': {
@@ -3712,7 +3712,7 @@ export const semanticRules = {
             // 'TIPO.tipo<-real.tipo', 'Imprimir ( TIPO.tipo)''
             const TIPO = {tipo: semantic['real'].tipo}
             semantic['TIPO'] = TIPO
-            return 'double ' //@TODO imprimir no arquivo @question tem que converter pros tipos de C?
+            return 'double '
         }
     },
     '10': {
@@ -3720,7 +3720,7 @@ export const semanticRules = {
             // 'TIPO.tipo<-literal.tipo','Imprimir ( TIPO.tipo);'
             const TIPO = {tipo: semantic['literal'].tipo}
             semantic['TIPO'] = TIPO
-            return 'literal ' //@TODO imprimir no arquivo @question tem que converter pros tipos de C?
+            return 'literal '
         }
     },
     '11': {
@@ -3728,12 +3728,25 @@ export const semanticRules = {
         }
     },
     '12': {
-        rule: 'ES->leia id pt_v', semantic: () => {
+        rule: 'ES->leia id pt_v', semantic: (semantic) => {
+            const id = semantic['ID']
+            if(id.tipo)
+            {
+                console.log('scan', id.tipo)
+                if(id.tipo == 'literal')
+                   return `scanf("%s", ${id.lexema});\n`
+                if(id.tipo == 'inteiro')
+                    return `scanf("%d", ${id.lexema});\n`
+                if(id.tipo == 'real')
+                    return `scanf("%lf", ${id.lexema});\n`
+            }
+            else
+                console.log("Erro: Variável não declarada") //@todo linha e coluna onde ocorreu o erro no fonte
         }
     },
     '13': {
         rule: 'ES->escreva ARG pt_v', semantic: (semantic) => {
-            return( `printf(${semantic['ARG'].lexema});\n`) //@todo imprimir no arquivo
+            return( `printf(${semantic['ARG'].lexema});\n`)
         }
     },
     '14': {
@@ -3749,7 +3762,13 @@ export const semanticRules = {
         }
     },
     '16': {
-        rule: 'ARG->id', semantic: () => {
+        rule: 'ARG->id', semantic: (semantic) => {
+            if(semantic['ID'].tipo){
+                const ARG = semantic['ID']
+                semantic['ARG'] = ARG
+            }
+            else
+                console.log("Erro: Variável não declarada") //@todo linha e coluna onde ocorreu o erro no fonte
         }
     },
     '17': {
@@ -3757,32 +3776,44 @@ export const semanticRules = {
         }
     },
     '18': {
-        rule: 'CMD->id rcb LD pt_v', semantic: () => {
+        rule: 'CMD->id rcb LD pt_v', semantic: (semantic) => {
+            // if(semantic['ID'].tipo){
+            //     if(semantic['ID'].tipo == semantic['LD'].tipo){
+            //         return `${semantic['ID'].lexema} ${semantic['RCB'].tipo} ${semantic['LD'].lexema}`
+            //     }
+            //     else
+            //         console.log("Erro: Tipos diferentes para atribuição") //@todo erro
+            // }
+            // else
+            //     console.log("Erro: Variável não declarada") //@todo erro
         }
     },
     '19': {
-        rule: 'LD->OPRD opm OPRD', semantic: () => {
+        rule: 'LD->OPRD opm OPRD', semantic: (semantic) => {
+            console.log(semantic)
         }
     },
     '20': {
-        rule: 'LD->OPRD', semantic: () => {
+        rule: 'LD->OPRD', semantic: (semantic) => {
+            semantic['LD'] = semantic['OPRD']
         }
     },
     '21': {
         rule: 'OPRD->id', semantic:
-            (token, tree) => {
-                console.log('teste')
-                // if(token.id){ //@todo verificar se o identificador está declarado, se estiver na tabela de simbolos vale
-                //     tree['OPRD'.atributos = that.id.atributos
-                // }
-                // else {
-                //     return `Erro: Variável não declarada”${that.id}”`//@todo, linha e coluna onde ocorreu o erro no fonte. `
-                // }
+            (semantic) => {
+                if(semantic['ID'].tipo){
+                    semantic['OPRD'] = semantic['ID']
+                }
+                else {
+                    console.log(`Erro: Variável não declarada ${semantic['ID'].lexema}`)//@todo, linha e coluna onde ocorreu o erro no fonte. `
+                }
 
             }
     },
     '22': {
-        rule: 'OPRD->num', semantic: () => {
+        rule: 'OPRD->num', semantic: (semantic) => {
+            //OPRD.atributos <- num.atributos
+            semantic['OPRD'] = semantic['NUM']
         }
     },
     '23': {
@@ -3791,6 +3822,7 @@ export const semanticRules = {
     },
     '24': {
         rule: 'COND->CAB CP', semantic: () => {
+            return '}'
         }
     },
     '25': {

@@ -22,7 +22,9 @@ async function main() {
     const scan = scanner(args[2])
     const initialState = '0'
     let stack = [initialState]
-    let semantic = {}
+    let semantic = {
+        'OPRD': []
+    }
     let done
     let response = await scan.next()
 
@@ -44,6 +46,7 @@ async function main() {
             stack.push(t)
             // semnatico: empilha token com seus atributos
             semantic[token.classe] = token
+
             // (6) seja a o próximo símbolo da entrada; volta pro while
             response = await scan.next()
             done = response.done
@@ -67,7 +70,6 @@ async function main() {
 
 function handleSemantic({t, semantic}) {
     textFinal += semanticRules[t]?.semantic(semantic) || ''
-    // textFinal += ' '
 
 }
 
