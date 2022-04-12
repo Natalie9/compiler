@@ -1,6 +1,6 @@
 export interface IError{
     type: typeErros,
-    position?: object,
+    position?: Array<number>,
     message: string
 }
 

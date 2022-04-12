@@ -19,7 +19,7 @@ import {
 import * as fs from 'fs/promises'
 import * as path from 'path'
 import {IToken} from "./models/Token";
-import {erroSemantico, errosList} from "./utils/tables";
+import {errosList} from "./utils/tables";
 import {IError, typeErros} from "./models/Erros";
 
 
@@ -97,17 +97,17 @@ function checkTableSymbol(token) {
 function formatToken({lexema, state, position}) {
     const isFinalState = checkFinalState(state)
     if (isFinalState) {
-        let token = {...states['FINAL'][state], lexema}
+        let token = {...states['FINAL'][state], lexema, position}
         if (token.classe == 'ID') {
             token = checkTableSymbol(token)
         }
         if (token.classe == 'ERROR') {
             notifyError(position, lexema)
-            token = {...states['FINAL'][state]}
+            token = {...states['FINAL'][state], position}
         }
         return token
     } else {
-        console.log(`Erro léxico - Palavra não reconhecida`)
+        console.log(`Palavra não reconhecida`)
         return {classe: 'ERROR', tipo: 'NULO', lexema: 'NULO'}
     }
 }
@@ -117,8 +117,7 @@ export async function readTextFile(pathName) {
 }
 
 function notifyError(position, lexema) {
-    let [line, column] = position
-    const erro : IError= {type: typeErros.lex, message: `Erro léxico - Caractere inesperado na linha ${line + 1}, coluna ${column} > ${lexema}`}
+    const erro : IError= {type: typeErros.lex, message: `Caractere inesperado > ${lexema}`, position: position}
     errosList.push(erro)
 }
 

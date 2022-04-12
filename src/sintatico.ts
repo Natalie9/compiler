@@ -6,7 +6,7 @@ import {
     ERRORS,
     semanticRules,
     textFile,
-    printTemporaryVariables, erroSemantico, errosList
+    printTemporaryVariables, errosList
 } from "./utils/tables";
 
 import * as fs from 'fs';
@@ -31,8 +31,10 @@ const headC = '#include<stdio.h>\n' +
 //     (12) } else if (ACTION [s,a] = accept ) pare; /* a análise terminou*/
 // (13) else invocar uma rotina de recuperação do erro;
 
-function checkIsError(token){
-    return token.classe == 'ERROR'
+function checkIsError(token) {
+   if(!token)
+       return false
+    return token?.classe == 'ERROR'
 }
 
 
@@ -70,7 +72,7 @@ async function main() {
             response = await scan.next()
             done = response.done
             token = response.value
-            while (checkIsError(token)){
+            while (checkIsError(token)) {
                 response = await scan.next()
                 done = response.done
                 token = response.value
@@ -81,30 +83,41 @@ async function main() {
             console.log('ACEITO')
             done = true
         } else if (action == "E") {
-            printError(action, s)
+            printError(action, s, token)
             response = await scan.next()
             done = response.done
             token = response.value
-            while (checkIsError(token)){
+            while (checkIsError(token)) {
                 response = await scan.next()
                 done = response.done
                 token = response.value
             }
+
         }
 
     }
-    if(!erroSemantico && !errosList.length){
-        let variables = printTemporaryVariables()
-        fs.writeFileSync('PROGRAMA.c', headC + variables+  textFile);
+    if (errosList.length) {
+        showErros(errosList)
+        return
     }
-    console.log(errosList)
+    let variables = printTemporaryVariables()
+    fs.writeFileSync('PROGRAMA.c', headC + variables + textFile);
+
 
 }
 
+function showErros(errosList) {
+    errosList.forEach((error) => {
+        const [linha, coluna] = error.position || [0,0]
+        console.log('\x1b[31m%s\x1b[0m', `Erro ${error.type}: \n\t ${error.message} na linha ${linha}, coluna ${coluna}`)
+    })
+}
 
-function printError(action, s) {
+function printError(action, s, token) {
     let productions = ERRORS[action + s]
-    const erro : IError= {type: typeErros.sintatic, message: 'Erro sintático - espera-se uma das produções a seguir: ' + productions}
+    const position = token.position || [0, 0]
+    const message = `Esperava se: ${productions}`
+    const erro: IError = {type: typeErros.sintatic, message, position}
     errosList.push(erro)
 }
 
@@ -135,14 +148,11 @@ function reduce(t, stack, semantic) {
     semanticToken && semantic.push(semanticToken)
 
 
-
     // (9) faça o estado t agora ser o topo da pilha;
     t = stack[stack.length - 1]
     // (10) empilhe GOTO[t,A] na pilha;
     const goto = GOTO_TABLE[t][A]
     stack.push(goto)
-
-
 
 
 }

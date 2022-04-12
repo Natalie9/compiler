@@ -3648,9 +3648,7 @@ export const ERRORS = {
     'E74': 'fc_p'
 }
 
-export let erroSemantico = false
-
-export let errosList : Array<IError> = []
+export let errosList: Array<IError> = []
 
 export const semanticRules = {
     '1': {
@@ -3679,13 +3677,12 @@ export const semanticRules = {
             const pt_v = semantic[semantic.length - 1]
             const L = semantic[semantic.length - 2]
             const TIPO = semantic[semantic.length - 3]
-
             //valida que o ID (L) tem um tipo
-            if (TIPO.tipo && L.tipo) {
+            if (TIPO.tipo) {
                 //imprime ponto e virgula e quebra a linha
                 printObjFile(L.lexema + pt_v.lexema + "\n")
             } else {
-                const erro : IError= {type: typeErros.semantic, message: 'Erro: variável não declarada'}
+                const erro: IError = {type: typeErros.semantic, message: 'Tipo não informado', position: L.position}
                 errosList.push(erro)
             }
 
@@ -3744,9 +3741,11 @@ export const semanticRules = {
                     printObjFile(`scanf("%d", ${id.lexema});\n`)
                 if (id.tipo == 'real')
                     printObjFile(`scanf("%lf", ${id.lexema});\n`)
-            } else
-                erroSemantico = true
-            console.log("Erro: Variável não declarada")
+            } else {
+                const erro: IError = {type: typeErros.semantic, message: 'Variável não declarada', position: id.position}
+                errosList.push(erro)
+            }
+
         }
     },
     '13': {
@@ -3794,8 +3793,8 @@ export const semanticRules = {
             if (ID.tipo)
                 return {...ID, classe: 'ARG'}
             else {
-                erroSemantico = true
-                console.log("Erro: Variável não declarada")
+                const erro: IError = {type: typeErros.semantic, message: 'Variável não declarada', position: ID.position}
+                errosList.push(erro)
             }
 
         }
@@ -3826,13 +3825,13 @@ export const semanticRules = {
                     const rcbTipo = rcb.lexema == '<-' ? '=' : rcb.lexema
                     printObjFile(`${ID.lexema} ${rcbTipo} ${LD.lexema}; \n`)
                 } else {
-                    erroSemantico = true
-                    console.log("Erro: Tipos diferentes para atribuição")
+                    const erro: IError = {type: typeErros.semantic, message: 'Tipos diferentes para atribuição', position: ID.position}
+                    errosList.push(erro)
                 }
 
             } else {
-                erroSemantico = true
-                console.log("Erro: Variável não declarada")
+                const erro: IError = {type: typeErros.semantic, message: 'Variável não declarada', position: ID.position}
+                errosList.push(erro)
             }
 
         }
@@ -3858,8 +3857,8 @@ export const semanticRules = {
                 countT++
                 return {...LD, classe: 'LD'}
             } else {
-                erroSemantico = true
-                console.log("Erro: Operandos com tipos incompatíveis")
+                const erro: IError = {type: typeErros.semantic, message: 'Operandos com tipos incompatíveis', position: OPRD2.position}
+                errosList.push(erro)
             }
 
 
@@ -3879,8 +3878,8 @@ export const semanticRules = {
                 if (ID.tipo) {
                     return {...ID, classe: 'OPRD'}
                 } else {
-                    erroSemantico = true
-                    console.log(`Erro: Variável não declarada ${semantic['ID'].lexema}`)
+                    const erro: IError = {type: typeErros.semantic, message: 'Variável não declarada', position: ID.position}
+                    errosList.push(erro)
                 }
             }
     },
@@ -3930,8 +3929,8 @@ export const semanticRules = {
                 countT++
                 return {...EXP_R, classe: 'EXP_R'}
             } else {
-                erroSemantico = true
-                console.log("Erro: Operandos com tipos incompatíveis")
+                const erro: IError = {type: typeErros.semantic, message: 'Operandos com tipos incompatíveis', position: OPRD2.position}
+                errosList.push(erro)
             }
         }
     },
