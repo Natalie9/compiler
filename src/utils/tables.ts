@@ -3770,11 +3770,20 @@ export const semanticRules = {
     },
     '16': {
         rule: 'ARG->id', semantic: (semantic) => {
-            // if (semantic['ID'].tipo) {
-            //     const ARG = semantic['ID']
-            //     semantic['ARG'] = ARG
-            // } else
-            //     console.log("Erro: Variável não declarada") //@todo linha e coluna onde ocorreu o erro no fonte
+            //Verificar se o identificador foi declarado (execução da regra semântica de
+            // número 6).
+            // Se sim, então:
+            // ARG.atributos <- id.atributos (copia todos os atributos de id para os de
+            // ARG).
+            // Caso Contrário:
+            //  Emitir na tela “Erro: Variável não declarada” , linha e coluna onde
+            // ocorreu o erro no fonte.
+
+            const ID = semantic[semantic.length -1]
+            if (ID.tipo)
+                return {...ID, classe: 'ARG'}
+             else
+                console.log("Erro: Variável não declarada") //@todo linha e coluna onde ocorreu o erro no fonte
         }
     },
     '17': {
@@ -3825,6 +3834,7 @@ export const semanticRules = {
             const OPRD2 = semantic[semantic.length - 1]
             const opr = semantic[semantic.length - 2]
             const OPRD1 = semantic[semantic.length - 3]
+            // @todo tem um caso com tipo invalido T6
             if (OPRD1.tipo == OPRD2.tipo) {
                 const tempT = 'T' + countT
                 const LD = {lexema: tempT, tipo: OPRD1.tipo}
@@ -3931,7 +3941,11 @@ export const semanticRules = {
         }
     },
     '33': {
-        rule: 'CABR->repita ab_p EXP_R fc_p', semantic: () => {
+        rule: 'CABR->repita ab_p EXP_R fc_p', semantic: (semantic) => {
+            const EXP_R = semantic[semantic.length -2]
+            if(EXP_R.lexema){
+                printObjFile(`while(${EXP_R.lexema}) do{ \n`)
+            }
         }
     },
     '34': {
@@ -3948,6 +3962,7 @@ export const semanticRules = {
     },
     '37': {
         rule: 'CPR->fimrepita', semantic: () => {
+            printObjFile('}\n')
         }
     },
     '38': {
