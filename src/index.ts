@@ -19,9 +19,11 @@ import {
 import * as fs from 'fs/promises'
 import * as path from 'path'
 import {IToken} from "./models/Token";
+import {erroSemantico, errosList} from "./utils/tables";
+import {IError, typeErros} from "./models/Erros";
 
 
-export async function* scanner(pathName: string, addChar='') {
+export async function* scanner(pathName: string, addChar = '') {
     const text = await readTextFile(path.join(__dirname, pathName))
 
     const textLines = text.split('\n')
@@ -34,7 +36,7 @@ export async function* scanner(pathName: string, addChar='') {
         let charactersOfLine = lineOfText.split('')
 
         for (let column = 0; column < charactersOfLine.length; column++) {
-            if(addChar) {
+            if (addChar) {
                 const restOfLine = charactersOfLine.slice(column)
                 console.log({charactersOfLine, column, restOfLine})
                 const newLine = [addChar, ...restOfLine]
@@ -54,7 +56,7 @@ export async function* scanner(pathName: string, addChar='') {
 
             //recebe o proximo estado e qual o tipo que aquela entrada tem
             let nextState = readValueReturnNewState(character, state)
-            if(nextState == 'Q0'){
+            if (nextState == 'Q0') {
                 continue
             }
             //se não tiver proximo estado chegou ao fim do automato
@@ -73,7 +75,7 @@ export async function* scanner(pathName: string, addChar='') {
         }
 
     }
-    yield formatToken({lexema, state, position : 0})
+    yield formatToken({lexema, state, position: 0})
     let position = [0, 0]
     const stateEOF = 'Q10'
     const tokenEOF = {...states['FINAL'][stateEOF]}
@@ -116,7 +118,8 @@ export async function readTextFile(pathName) {
 
 function notifyError(position, lexema) {
     let [line, column] = position
-    console.log(`Erro léxico - Caractere inesperado na linha ${line + 1}, coluna ${column} > ${lexema}`)
+    const erro : IError= {type: typeErros.lex, message: `Erro léxico - Caractere inesperado na linha ${line + 1}, coluna ${column} > ${lexema}`}
+    errosList.push(erro)
 }
 
 

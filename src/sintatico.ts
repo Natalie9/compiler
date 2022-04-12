@@ -6,10 +6,11 @@ import {
     ERRORS,
     semanticRules,
     textFile,
-    printTemporaryVariables, erroSemantico
+    printTemporaryVariables, erroSemantico, errosList
 } from "./utils/tables";
 
 import * as fs from 'fs';
+import {IError, typeErros} from "./models/Erros";
 
 const headC = '#include<stdio.h>\n' +
     'typedef char literal[256];\n' +
@@ -29,6 +30,10 @@ const headC = '#include<stdio.h>\n' +
 //     (11) imprima a produção A-> β ;
 //     (12) } else if (ACTION [s,a] = accept ) pare; /* a análise terminou*/
 // (13) else invocar uma rotina de recuperação do erro;
+
+function checkIsError(token){
+    return token.classe == 'ERROR'
+}
 
 
 async function main() {
@@ -65,6 +70,11 @@ async function main() {
             response = await scan.next()
             done = response.done
             token = response.value
+            while (checkIsError(token)){
+                response = await scan.next()
+                done = response.done
+                token = response.value
+            }
         } else if (action == 'R') {
             reduce(t, stack, semantic)
         } else if (action == 'A') {
@@ -75,19 +85,27 @@ async function main() {
             response = await scan.next()
             done = response.done
             token = response.value
+            while (checkIsError(token)){
+                response = await scan.next()
+                done = response.done
+                token = response.value
+            }
         }
 
     }
-    if(!erroSemantico){
+    if(!erroSemantico && !errosList.length){
         let variables = printTemporaryVariables()
         fs.writeFileSync('PROGRAMA.c', headC + variables+  textFile);
     }
+    console.log(errosList)
+
 }
 
 
 function printError(action, s) {
     let productions = ERRORS[action + s]
-    console.log(`Erro sintático - espera-se uma das produções a seguir: ` + productions)
+    const erro : IError= {type: typeErros.sintatic, message: 'Erro sintático - espera-se uma das produções a seguir: ' + productions}
+    errosList.push(erro)
 }
 
 function reduce(t, stack, semantic) {
@@ -96,19 +114,26 @@ function reduce(t, stack, semantic) {
     let A = rule[0]
     let beta = rule[1].split(' ')
 
+
+    // (8) desempilha | β | símbolos da pilha (a quantidade de símbolos de beta);
+    beta.forEach(() => {
+        stack.pop()
+    })
+
     // (11) imprima a produção A-> β ;
     console.log(t, rule.join('->'))
 
     //excuta as funçoes semanticas
     //passa a pilha semantica como paramento, o retorno é um novo token pra ser adicionado na pilha
     let semanticToken = semanticRules[t]?.semantic(semantic) || ''
-    // (8) desempilha | β | símbolos da pilha (a quantidade de símbolos de beta);
+
+    //desempilha | β | símbolos da pilha semantica (a quantidade de símbolos de beta);
     beta.forEach(() => {
-        stack.pop()
         semantic.pop()
     })
     //caso tenha token de retorno adiciona ele na pilha semantica
     semanticToken && semantic.push(semanticToken)
+
 
 
     // (9) faça o estado t agora ser o topo da pilha;
@@ -116,6 +141,9 @@ function reduce(t, stack, semantic) {
     // (10) empilhe GOTO[t,A] na pilha;
     const goto = GOTO_TABLE[t][A]
     stack.push(goto)
+
+
+
 
 }
 

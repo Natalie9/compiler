@@ -1,11 +1,11 @@
 inicio
     varinicio
         literal A;
-        inteiro B;
+        inteiro B @;
         inteiro D;
         real C ;
         {comentarioo}
-    varfim;
+    varfim
     escreva "Digite B:";
     leia B;
     escreva "Digite A:";

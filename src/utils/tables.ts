@@ -1,3 +1,5 @@
+import {IError, typeErros} from "../models/Erros";
+
 export const ACTION_TABLE =
     {
         '0': {
@@ -3648,6 +3650,8 @@ export const ERRORS = {
 
 export let erroSemantico = false
 
+export let errosList : Array<IError> = []
+
 export const semanticRules = {
     '1': {
         rule: 'P->P', semantic: () => {
@@ -3681,8 +3685,8 @@ export const semanticRules = {
                 //imprime ponto e virgula e quebra a linha
                 printObjFile(L.lexema + pt_v.lexema + "\n")
             } else {
-                erroSemantico = true
-                console.log('Erro: variável não declarada')
+                const erro : IError= {type: typeErros.semantic, message: 'Erro: variável não declarada'}
+                errosList.push(erro)
             }
 
         }
@@ -3749,7 +3753,6 @@ export const semanticRules = {
         rule: 'ES->escreva ARG pt_v', semantic: (semantic) => {
             //imprimir ( printf(“ARG.lexema”); )
             const ARG = semantic[semantic.length - 2]
-            console.log(ARG)
             if (ARG.name == 'ID') {
                 if (ARG.tipo == 'literal')
                     printObjFile(`printf("%s",${ARG.lexema});\n`)
