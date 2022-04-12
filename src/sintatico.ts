@@ -6,8 +6,15 @@ import {
     ERRORS,
     semanticRules,
     textFile,
-    printTemporaryVariables
+    printTemporaryVariables, erroSemantico
 } from "./utils/tables";
+
+import * as fs from 'fs';
+
+const headC = '#include<stdio.h>\n' +
+    'typedef char literal[256];\n' +
+    'void main(void)\n' +
+    '{'
 
 // (1) Seja a o primeiro símbolo de w$;
 // (2) while { /*Repita indefinidamente*/
@@ -51,7 +58,7 @@ async function main() {
             // (5) empilha t na pilha;
             stack.push(t)
             // semnatico: empilha token com seus atributos
-            semanticToken= {...token, name: token.classe}
+            semanticToken = {...token, name: token.classe}
             semantic.push(semanticToken)
 
             // (6) seja a o próximo símbolo da entrada; volta pro while
@@ -71,8 +78,10 @@ async function main() {
         }
 
     }
-    printTemporaryVariables()
-    console.log(textFile)
+    if(!erroSemantico){
+        let variables = printTemporaryVariables()
+        fs.writeFileSync('PROGRAMA.c', headC + variables+  textFile);
+    }
 }
 
 
@@ -100,7 +109,6 @@ function reduce(t, stack, semantic) {
     })
     //caso tenha token de retorno adiciona ele na pilha semantica
     semanticToken && semantic.push(semanticToken)
-
 
 
     // (9) faça o estado t agora ser o topo da pilha;

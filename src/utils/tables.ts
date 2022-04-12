@@ -3522,6 +3522,7 @@ export const GOTO_TABLE =
         }
     }
 
+
 import {symbolTable} from "./Alphabet";
 
 export let textFile = ''
@@ -3645,6 +3646,8 @@ export const ERRORS = {
     'E74': 'fc_p'
 }
 
+export let erroSemantico = false
+
 export const semanticRules = {
     '1': {
         rule: 'P->P', semantic: () => {
@@ -3664,8 +3667,7 @@ export const semanticRules = {
     },
     '5': {
         rule: 'LV->varfim pt_v', semantic: (semantic) => {
-
-            printObjFile('\n\n\n')
+            printObjFile('\n')
         }
     },
     '6': {
@@ -3679,7 +3681,8 @@ export const semanticRules = {
                 //imprime ponto e virgula e quebra a linha
                 printObjFile(L.lexema + pt_v.lexema + "\n")
             } else {
-                console.log('Erro: variável não declarada') // @todo validar erro
+                erroSemantico = true
+                console.log('Erro: variável não declarada')
             }
 
         }
@@ -3738,15 +3741,25 @@ export const semanticRules = {
                 if (id.tipo == 'real')
                     printObjFile(`scanf("%lf", ${id.lexema});\n`)
             } else
-                console.log("Erro: Variável não declarada") //@todo linha e coluna onde ocorreu o erro no fonte
+                erroSemantico = true
+            console.log("Erro: Variável não declarada")
         }
     },
     '13': {
         rule: 'ES->escreva ARG pt_v', semantic: (semantic) => {
             //imprimir ( printf(“ARG.lexema”); )
             const ARG = semantic[semantic.length - 2]
-            printObjFile(`teste printf(${ARG.lexema});\n`)
-
+            console.log(ARG)
+            if (ARG.name == 'ID') {
+                if (ARG.tipo == 'literal')
+                    printObjFile(`printf("%s",${ARG.lexema});\n`)
+                if (ARG.tipo == 'inteiro')
+                    printObjFile(`printf("%d",${ARG.lexema});\n`)
+                if (ARG.tipo == 'real')
+                    printObjFile(`printf("%lf",${ARG.lexema});\n`)
+            } else {
+                printObjFile(`printf(${ARG.lexema});\n`)
+            }
         }
     },
     '14': {
@@ -3777,8 +3790,11 @@ export const semanticRules = {
             const ID = semantic[semantic.length - 1]
             if (ID.tipo)
                 return {...ID, classe: 'ARG'}
-            else
-                console.log("Erro: Variável não declarada") //@todo linha e coluna onde ocorreu o erro no fonte
+            else {
+                erroSemantico = true
+                console.log("Erro: Variável não declarada")
+            }
+
         }
     },
     '17': {
@@ -3806,10 +3822,15 @@ export const semanticRules = {
                     // @todo alguns .tipo estão nulos, estou usando o .lexema
                     const rcbTipo = rcb.lexema == '<-' ? '=' : rcb.lexema
                     printObjFile(`${ID.lexema} ${rcbTipo} ${LD.lexema}; \n`)
-                } else
-                    console.log("Erro: Tipos diferentes para atribuição") //@todo erro
-            } else
-                console.log("Erro: Variável não declarada") //@todo erro
+                } else {
+                    erroSemantico = true
+                    console.log("Erro: Tipos diferentes para atribuição")
+                }
+
+            } else {
+                erroSemantico = true
+                console.log("Erro: Variável não declarada")
+            }
 
         }
     },
@@ -3827,7 +3848,6 @@ export const semanticRules = {
             const OPRD2 = semantic[semantic.length - 1]
             const opr = semantic[semantic.length - 2]
             const OPRD1 = semantic[semantic.length - 3]
-            // @todo tem um caso com tipo invalido T6
             if (OPRD1.tipo == OPRD2.tipo) {
                 const tempT = 'T' + countT
                 const LD = {lexema: tempT, tipo: OPRD1.tipo}
@@ -3835,7 +3855,8 @@ export const semanticRules = {
                 countT++
                 return {...LD, classe: 'LD'}
             } else {
-                console.log("Erro: Operandos com tipos incompatíveis") //@todo erro
+                erroSemantico = true
+                console.log("Erro: Operandos com tipos incompatíveis")
             }
 
 
@@ -3855,7 +3876,8 @@ export const semanticRules = {
                 if (ID.tipo) {
                     return {...ID, classe: 'OPRD'}
                 } else {
-                    console.log(`Erro: Variável não declarada ${semantic['ID'].lexema}`)//@todo, linha e coluna onde ocorreu o erro no fonte. `
+                    erroSemantico = true
+                    console.log(`Erro: Variável não declarada ${semantic['ID'].lexema}`)
                 }
             }
     },
@@ -3905,7 +3927,8 @@ export const semanticRules = {
                 countT++
                 return {...EXP_R, classe: 'EXP_R'}
             } else {
-                console.log("Erro: Operandos com tipos incompatíveis") //@todo erro
+                erroSemantico = true
+                console.log("Erro: Operandos com tipos incompatíveis")
             }
         }
     },
@@ -3967,7 +3990,6 @@ export const semanticRules = {
 }
 
 
-
 function printObjFile(text) {
     textFile += text
 }
@@ -3976,8 +3998,8 @@ let countT = 0
 
 export function printTemporaryVariables() {
     let text = ''
-    for (let i = 0; i <= countT; i++) {
+    for (let i = 0; i < countT; i++) {
         text += 'int T' + i + ';\n'
     }
-    console.log(text)
+    return text
 }
