@@ -1,5 +1,13 @@
 import {scanner} from "./index";
-import {ACTION_TABLE, GOTO_TABLE, RULES, ERRORS, semanticRules, textFile} from "./utils/tables";
+import {
+    ACTION_TABLE,
+    GOTO_TABLE,
+    RULES,
+    ERRORS,
+    semanticRules,
+    textFile,
+    printTemporaryVariables
+} from "./utils/tables";
 
 // (1) Seja a o primeiro símbolo de w$;
 // (2) while { /*Repita indefinidamente*/
@@ -63,6 +71,7 @@ async function main() {
         }
 
     }
+    printTemporaryVariables()
     console.log(textFile)
 }
 

@@ -3677,9 +3677,9 @@ export const semanticRules = {
             //valida que o ID (L) tem um tipo
             if (TIPO.tipo && L.tipo) {
                 //imprime ponto e virgula e quebra a linha
-                printObjFile(pt_v.lexema + "\n")
+                printObjFile(L.lexema + pt_v.lexema + "\n")
             } else {
-                console.log('Tipos inconsistentes') // @todo validar erro
+                console.log('Erro: variável não declarada') // @todo validar erro
             }
 
         }
@@ -3691,13 +3691,9 @@ export const semanticRules = {
             if (symbolTable[ID.lexema]) {
                 //atualiza a tabela de simbolos com o tipo daquele ID
                 symbolTable[ID.lexema].tipo = TIPO.tipo
-                printObjFile(ID.lexema)
                 //adiciona L com os atributos de ID na pilha
-                return {...ID, classe: 'L'}
-            } else {
-
-                console.log("variável não declarada") //@todo monitorar erros pra n fazer arquivo e adicionar linha e coluna
             }
+            return {...ID, classe: 'L'}
 
         }
     },
@@ -3748,9 +3744,8 @@ export const semanticRules = {
     '13': {
         rule: 'ES->escreva ARG pt_v', semantic: (semantic) => {
             //imprimir ( printf(“ARG.lexema”); )
-            const pt_v = semantic[semantic.length - 1]
             const ARG = semantic[semantic.length - 2]
-            printObjFile(`printf(${ARG.lexema});\n`)
+            printObjFile(`teste printf(${ARG.lexema});\n`)
 
         }
     },
@@ -3779,10 +3774,10 @@ export const semanticRules = {
             //  Emitir na tela “Erro: Variável não declarada” , linha e coluna onde
             // ocorreu o erro no fonte.
 
-            const ID = semantic[semantic.length -1]
+            const ID = semantic[semantic.length - 1]
             if (ID.tipo)
                 return {...ID, classe: 'ARG'}
-             else
+            else
                 console.log("Erro: Variável não declarada") //@todo linha e coluna onde ocorreu o erro no fonte
         }
     },
@@ -3806,16 +3801,14 @@ export const semanticRules = {
             const ID = semantic[semantic.length - 4]
             const rcb = semantic[semantic.length - 3]
             const LD = semantic[semantic.length - 2]
-            if(ID.tipo){
-                if(ID.tipo == LD.tipo){
+            if (ID.tipo) {
+                if (ID.tipo == LD.tipo) {
                     // @todo alguns .tipo estão nulos, estou usando o .lexema
                     const rcbTipo = rcb.lexema == '<-' ? '=' : rcb.lexema
                     printObjFile(`${ID.lexema} ${rcbTipo} ${LD.lexema}; \n`)
-                }
-                else
+                } else
                     console.log("Erro: Tipos diferentes para atribuição") //@todo erro
-            }
-            else
+            } else
                 console.log("Erro: Variável não declarada") //@todo erro
 
         }
@@ -3851,7 +3844,7 @@ export const semanticRules = {
     '20': {
         rule: 'LD->OPRD', semantic: (semantic) => {
             //LD.atributos <- OPRD.atributos
-            const OPRD = semantic[semantic.length -1]
+            const OPRD = semantic[semantic.length - 1]
             return {...OPRD, classe: 'LD'}
         }
     },
@@ -3942,8 +3935,8 @@ export const semanticRules = {
     },
     '33': {
         rule: 'CABR->repita ab_p EXP_R fc_p', semantic: (semantic) => {
-            const EXP_R = semantic[semantic.length -2]
-            if(EXP_R.lexema){
+            const EXP_R = semantic[semantic.length - 2]
+            if (EXP_R.lexema) {
                 printObjFile(`while(${EXP_R.lexema}) do{ \n`)
             }
         }
@@ -3967,29 +3960,12 @@ export const semanticRules = {
     },
     '38': {
         rule: 'A->fim', semantic: () => {
+            printObjFile('}\n')
         }
     }
 
 }
 
-
-function findInSemanticStack(semanticStack, name) {
-    return semanticStack.find((token) => token.name == name)
-}
-
-function findIndexSemanticStack(semanticStack, name) {
-    return semanticStack.findIndex((token) => token.name == name)
-}
-
-function pushSemanticStack(semanticStack, name, token) {
-
-    semanticStack.push({...token, name})
-
-}
-
-function pushWithoutOverwrite(semanticStack, name, token) {
-    semanticStack.unshift({...token, name})
-}
 
 
 function printObjFile(text) {
@@ -3997,3 +3973,11 @@ function printObjFile(text) {
 }
 
 let countT = 0
+
+export function printTemporaryVariables() {
+    let text = ''
+    for (let i = 0; i <= countT; i++) {
+        text += 'int T' + i + ';\n'
+    }
+    console.log(text)
+}
