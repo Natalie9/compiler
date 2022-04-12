@@ -3524,6 +3524,7 @@ export const GOTO_TABLE =
 
 import {symbolTable} from "./Alphabet";
 
+export let textFile = ''
 
 export const RULES = {
     '1': 'P->P',
@@ -3654,27 +3655,30 @@ export const semanticRules = {
         }
     },
     '3': {
-        rule: 'V->varincio LV', semantic: () => {
+        rule: 'V->varincio LV', semantic: (semantic) => {
         }
     },
     '4': {
-        rule: 'LV->D LV', semantic: () => {
+        rule: 'LV->D LV', semantic: (semantic) => {
         }
     },
     '5': {
-        rule: 'LV->varfim pt_v', semantic: () => {
-            return('\n\n\n')
+        rule: 'LV->varfim pt_v', semantic: (semantic) => {
+
+            printObjFile('\n\n\n')
         }
     },
     '6': {
         rule: 'D->TIPO L pt_v', semantic: (semantic) => {
-            //@todo ISA mudei um pouco a regra
-            //valida se o tipo e a variavel são os mesmos, e valida que o ID (L) tem um tipo
-            if (semantic['TIPO'].tipo == semantic['L'].tipo){
+            const pt_v = semantic[semantic.length - 1]
+            const L = semantic[semantic.length - 2]
+            const TIPO = semantic[semantic.length - 3]
+
+            //valida que o ID (L) tem um tipo
+            if (TIPO.tipo && L.tipo) {
                 //imprime ponto e virgula e quebra a linha
-                return semantic['PT_V'].lexema + "\n"
-            }
-            else {
+                printObjFile(pt_v.lexema + "\n")
+            } else {
                 console.log('Tipos inconsistentes') // @todo validar erro
             }
 
@@ -3682,18 +3686,16 @@ export const semanticRules = {
     },
     '7': {
         rule: 'L->id', semantic: (semantic) => {
-            let ID = semantic['ID']
-            const TIPO = semantic['TIPO']
-            ID.tipo = TIPO.tipo
-
+            let ID = semantic[semantic.length - 1]
+            const TIPO = semantic[semantic.length - 2]
             if (symbolTable[ID.lexema]) {
                 //atualiza a tabela de simbolos com o tipo daquele ID
-                symbolTable[ID.lexema] = ID
-                const L = ID
+                symbolTable[ID.lexema].tipo = TIPO.tipo
+                printObjFile(ID.lexema)
                 //adiciona L com os atributos de ID na pilha
-                semantic['L'] = L
-                return ID.lexema
+                return {...ID, classe: 'L'}
             } else {
+
                 console.log("variável não declarada") //@todo monitorar erros pra n fazer arquivo e adicionar linha e coluna
             }
 
@@ -3702,25 +3704,27 @@ export const semanticRules = {
     '8': {
         rule: 'TIPO->inteiro', semantic: (semantic) => {
             // 'TIPO.tipo<-inteiro.tipo', 'Imprimir ( TIPO.tipo)''
-            const TIPO = {tipo: semantic['inteiro'].tipo}
-            semantic['TIPO'] = TIPO
-            return 'int '
+            const inteiro = semantic[semantic.length - 1]
+            const TIPO = {tipo: inteiro.tipo, classe: 'TIPO'}
+            printObjFile('int ')
+            return TIPO
         }
     },
     '9': {
         rule: 'TIPO->real', semantic: (semantic) => {
             // 'TIPO.tipo<-real.tipo', 'Imprimir ( TIPO.tipo)''
-            const TIPO = {tipo: semantic['real'].tipo}
-            semantic['TIPO'] = TIPO
-            return 'double '
+            const real = semantic[semantic.length - 1]
+            printObjFile('double ')
+            return {tipo: real.tipo, classe: 'TIPO'}
         }
     },
     '10': {
         rule: 'TIPO->literal', semantic: (semantic) => {
             // 'TIPO.tipo<-literal.tipo','Imprimir ( TIPO.tipo);'
-            const TIPO = {tipo: semantic['literal'].tipo}
-            semantic['TIPO'] = TIPO
-            return 'literal '
+            const literal = semantic[semantic.length - 1]
+            const TIPO = {tipo: literal.tipo}
+            printObjFile(TIPO.tipo + ' ')
+            return TIPO
         }
     },
     '11': {
@@ -3729,30 +3733,33 @@ export const semanticRules = {
     },
     '12': {
         rule: 'ES->leia id pt_v', semantic: (semantic) => {
-            const id = semantic['ID']
-            if(id.tipo)
-            {
-                console.log('scan', id.tipo)
-                if(id.tipo == 'literal')
-                   return `scanf("%s", ${id.lexema});\n`
-                if(id.tipo == 'inteiro')
-                    return `scanf("%d", ${id.lexema});\n`
-                if(id.tipo == 'real')
-                    return `scanf("%lf", ${id.lexema});\n`
-            }
-            else
+            const id = semantic[semantic.length - 2]
+            if (id.tipo) {
+                if (id.tipo == 'literal')
+                    printObjFile(`scanf("%s", ${id.lexema});\n`)
+                if (id.tipo == 'inteiro')
+                    printObjFile(`scanf("%d", ${id.lexema});\n`)
+                if (id.tipo == 'real')
+                    printObjFile(`scanf("%lf", ${id.lexema});\n`)
+            } else
                 console.log("Erro: Variável não declarada") //@todo linha e coluna onde ocorreu o erro no fonte
         }
     },
     '13': {
         rule: 'ES->escreva ARG pt_v', semantic: (semantic) => {
-            return( `printf(${semantic['ARG'].lexema});\n`)
+            //imprimir ( printf(“ARG.lexema”); )
+            const pt_v = semantic[semantic.length - 1]
+            const ARG = semantic[semantic.length - 2]
+            printObjFile(`printf(${ARG.lexema});\n`)
+
         }
     },
     '14': {
         rule: 'ARG->lit', semantic: (semantic) => {
             //ARG.atributos <- literal.atributos
-            semantic['ARG'] = semantic['LIT']
+            const literal = semantic[semantic.length - 1]
+            return {...literal, classe: 'ARG'}
+
         }
     },
     '15': {
@@ -3763,12 +3770,11 @@ export const semanticRules = {
     },
     '16': {
         rule: 'ARG->id', semantic: (semantic) => {
-            if(semantic['ID'].tipo){
-                const ARG = semantic['ID']
-                semantic['ARG'] = ARG
-            }
-            else
-                console.log("Erro: Variável não declarada") //@todo linha e coluna onde ocorreu o erro no fonte
+            // if (semantic['ID'].tipo) {
+            //     const ARG = semantic['ID']
+            //     semantic['ARG'] = ARG
+            // } else
+            //     console.log("Erro: Variável não declarada") //@todo linha e coluna onde ocorreu o erro no fonte
         }
     },
     '17': {
@@ -3786,11 +3792,24 @@ export const semanticRules = {
             // }
             // else
             //     console.log("Erro: Variável não declarada") //@todo erro
+
         }
     },
     '19': {
         rule: 'LD->OPRD opm OPRD', semantic: (semantic) => {
-            console.log(semantic)
+            // Verificar se tipo dos operandos são equivalentes e diferentes de literal.
+            //     Se sim, então:
+            // Gerar uma variável numérica temporária Tx, em que x é um número
+            // gerado sequencialmente.
+            // LD.lexema ß Tx
+            // Imprimir (Tx = OPRD.lexema opm.tipo OPRD.lexema) no arquivo
+            // objeto.
+            //     Caso contrário emitir “Erro: Operandos com tipos incompatíveis” ”, linha e
+            // coluna onde ocorreu o erro no fonte.
+
+            // console.log(semantic.filter(token => token.name == 'OPRD'))
+
+
         }
     },
     '20': {
@@ -3801,19 +3820,19 @@ export const semanticRules = {
     '21': {
         rule: 'OPRD->id', semantic:
             (semantic) => {
-                if(semantic['ID'].tipo){
-                    semantic['OPRD'] = semantic['ID']
-                }
-                else {
+                const ID = semantic[semantic.length - 1]
+                if (ID.tipo) {
+                    return {...ID, classe: 'OPRD'}
+                } else {
                     console.log(`Erro: Variável não declarada ${semantic['ID'].lexema}`)//@todo, linha e coluna onde ocorreu o erro no fonte. `
                 }
-
             }
     },
     '22': {
         rule: 'OPRD->num', semantic: (semantic) => {
             //OPRD.atributos <- num.atributos
-            semantic['OPRD'] = semantic['NUM']
+            const NUM = semantic[semantic.length - 1]
+            return {...NUM, classe: 'OPRD'}
         }
     },
     '23': {
@@ -3822,15 +3841,41 @@ export const semanticRules = {
     },
     '24': {
         rule: 'COND->CAB CP', semantic: () => {
-            return '}'
+            // Imprimir ( } )
+            printObjFile('\n}\n')
         }
     },
     '25': {
-        rule: 'CAB->se ab_p EXP_R fc_p entao', semantic: () => {
+        rule: 'CAB->se ab_p EXP_R fc_p entao', semantic: (semantic) => {
+            // Imprimir ( if (EXP_R.lexema) { )
+            const EXP_R = semantic[semantic.length - 3]
+            printObjFile(`if (${EXP_R.lexema}) { \n`)
         }
     },
     '26': {
-        rule: 'EXP_R->OPRD opr OPRD', semantic: () => {
+        rule: 'EXP_R->OPRD opr OPRD', semantic: (semantic) => {
+            // Verificar se os tipos de dados de OPRD são iguais ou equivalentes para a
+            // realização de comparação relacional.
+            //     Se sim, então:
+            // Gerar uma variável booleana temporária Tx, em que x é um número
+            // gerado sequencialmente.
+            //     EXP_R.lexema <- Tx
+            // Imprimir (Tx = OPRD.lexema opr.tipo OPRD.lexema) no arquivo
+            // objeto.
+            //     Caso contrário emitir “Erro: Operandos com tipos incompatíveis” ”, linha e
+            // coluna onde ocorreu o erro no fonte.
+            const OPRD2 = semantic[semantic.length - 1]
+            const opr = semantic[semantic.length - 2]
+            const OPRD1 = semantic[semantic.length - 3]
+            if (OPRD1.tipo == OPRD2.tipo) {
+                const tempT = 'T' + countT
+                const EXP_R = {lexema: tempT}
+                printObjFile(`${tempT} = ${OPRD1.lexema} ${opr.lexema} ${OPRD2.lexema};\n`)
+                countT++
+                return {...EXP_R, classe: 'EXP_R'}
+            } else {
+                console.log("Erro: Operandos com tipos incompatíveis") //@todo erro
+            }
         }
     },
     '27': {
@@ -3881,4 +3926,31 @@ export const semanticRules = {
         rule: 'A->fim', semantic: () => {
         }
     }
+
 }
+
+
+function findInSemanticStack(semanticStack, name) {
+    return semanticStack.find((token) => token.name == name)
+}
+
+function findIndexSemanticStack(semanticStack, name) {
+    return semanticStack.findIndex((token) => token.name == name)
+}
+
+function pushSemanticStack(semanticStack, name, token) {
+
+    semanticStack.push({...token, name})
+
+}
+
+function pushWithoutOverwrite(semanticStack, name, token) {
+    semanticStack.unshift({...token, name})
+}
+
+
+function printObjFile(text) {
+    textFile += text
+}
+
+let countT = 0
