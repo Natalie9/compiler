@@ -3783,15 +3783,31 @@ export const semanticRules = {
     },
     '18': {
         rule: 'CMD->id rcb LD pt_v', semantic: (semantic) => {
-            // if(semantic['ID'].tipo){
-            //     if(semantic['ID'].tipo == semantic['LD'].tipo){
-            //         return `${semantic['ID'].lexema} ${semantic['RCB'].tipo} ${semantic['LD'].lexema}`
-            //     }
-            //     else
-            //         console.log("Erro: Tipos diferentes para atribuição") //@todo erro
-            // }
-            // else
-            //     console.log("Erro: Variável não declarada") //@todo erro
+            //Verificar se id foi declarado (execução da regra semântica de número 6). Se
+            // sim, então:
+            // | Realizar verificação do tipo entre os operandos id e LD (ou seja,
+            // | se ambos são do mesmo tipo).
+            // | Se sim, então:
+            // | | Imprimir (id.lexema rcb.tipo LD.lexema) no arquivo objeto.
+            // | Caso contrário emitir: ”Erro: Tipos diferentes para atribuição”,
+            // |__________linha e coluna onde ocorreu o erro no fonte.
+            // Caso contrário emitir “Erro: Variável não declarada” ”, linha e coluna onde
+            // ocorreu o erro no fonte.
+
+            const ID = semantic[semantic.length - 4]
+            const rcb = semantic[semantic.length - 3]
+            const LD = semantic[semantic.length - 2]
+            if(ID.tipo){
+                if(ID.tipo == LD.tipo){
+                    // @todo alguns .tipo estão nulos, estou usando o .lexema
+                    const rcbTipo = rcb.lexema == '<-' ? '=' : rcb.lexema
+                    printObjFile(`${ID.lexema} ${rcbTipo} ${LD.lexema}; \n`)
+                }
+                else
+                    console.log("Erro: Tipos diferentes para atribuição") //@todo erro
+            }
+            else
+                console.log("Erro: Variável não declarada") //@todo erro
 
         }
     },
@@ -3801,20 +3817,32 @@ export const semanticRules = {
             //     Se sim, então:
             // Gerar uma variável numérica temporária Tx, em que x é um número
             // gerado sequencialmente.
-            // LD.lexema ß Tx
+            // LD.lexema <- Tx
             // Imprimir (Tx = OPRD.lexema opm.tipo OPRD.lexema) no arquivo
             // objeto.
             //     Caso contrário emitir “Erro: Operandos com tipos incompatíveis” ”, linha e
             // coluna onde ocorreu o erro no fonte.
-
-            // console.log(semantic.filter(token => token.name == 'OPRD'))
+            const OPRD2 = semantic[semantic.length - 1]
+            const opr = semantic[semantic.length - 2]
+            const OPRD1 = semantic[semantic.length - 3]
+            if (OPRD1.tipo == OPRD2.tipo) {
+                const tempT = 'T' + countT
+                const LD = {lexema: tempT, tipo: OPRD1.tipo}
+                printObjFile(`${tempT} = ${OPRD1.lexema} ${opr.lexema} ${OPRD2.lexema};\n`)
+                countT++
+                return {...LD, classe: 'LD'}
+            } else {
+                console.log("Erro: Operandos com tipos incompatíveis") //@todo erro
+            }
 
 
         }
     },
     '20': {
         rule: 'LD->OPRD', semantic: (semantic) => {
-            semantic['LD'] = semantic['OPRD']
+            //LD.atributos <- OPRD.atributos
+            const OPRD = semantic[semantic.length -1]
+            return {...OPRD, classe: 'LD'}
         }
     },
     '21': {
@@ -3842,7 +3870,7 @@ export const semanticRules = {
     '24': {
         rule: 'COND->CAB CP', semantic: () => {
             // Imprimir ( } )
-            printObjFile('\n}\n')
+            printObjFile('} \n')
         }
     },
     '25': {
